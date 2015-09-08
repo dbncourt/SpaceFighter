@@ -1,0 +1,156 @@
+{"frames": [
+
+{
+	"filename": "Fighter_00.png",
+	"frame": {"x":2,"y":90,"w":138,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":25,"w":138,"h":36},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_01.png",
+	"frame": {"x":842,"y":44,"w":138,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":24,"w":138,"h":37},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_02.png",
+	"frame": {"x":142,"y":88,"w":138,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":23,"w":138,"h":38},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_03.png",
+	"frame": {"x":562,"y":73,"w":138,"h":41},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":22,"w":138,"h":41},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_04.png",
+	"frame": {"x":282,"y":79,"w":138,"h":46},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":20,"w":138,"h":46},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_05.png",
+	"frame": {"x":702,"y":2,"w":138,"h":55},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":19,"w":138,"h":55},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_06.png",
+	"frame": {"x":422,"y":2,"w":138,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":14,"w":138,"h":69},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_07.png",
+	"frame": {"x":142,"y":2,"w":138,"h":84},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":7,"w":138,"h":84},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_08.png",
+	"frame": {"x":2,"y":90,"w":138,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":25,"w":138,"h":36},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_09.png",
+	"frame": {"x":842,"y":83,"w":138,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":24,"w":138,"h":37},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_10.png",
+	"frame": {"x":842,"y":2,"w":138,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":22,"w":138,"h":40},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_11.png",
+	"frame": {"x":422,"y":73,"w":138,"h":45},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":20,"w":138,"h":45},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_12.png",
+	"frame": {"x":702,"y":59,"w":138,"h":54},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":19,"w":138,"h":54},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_13.png",
+	"frame": {"x":562,"y":2,"w":138,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":14,"w":138,"h":69},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_14.png",
+	"frame": {"x":282,"y":2,"w":138,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":11,"w":138,"h":75},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Fighter_15.png",
+	"frame": {"x":2,"y":2,"w":138,"h":86},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":6,"w":138,"h":86},
+	"sourceSize": {"w":144,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Fighter.png",
+	"format": "RGBA8888",
+	"size": {"w":996,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c6a494ae262b41ee4aea7801aac6d9d3:e82604aab92f1ea2db2c3081aa22f35d:7b0a5cd6d4e39750d3f5314a5c72b84d$"
+}
+}
