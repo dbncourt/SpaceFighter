@@ -80,7 +80,7 @@ bool Graphics::Frame(InputHandler::ControlsType controls)
 {
 	bool result;
 	
-	this->m_Fighter->InterpretAction(controls);
+	this->m_Fighter->Frame(controls);
 
 	//Render the graphics scene
 	result = Graphics::Render();

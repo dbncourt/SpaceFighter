@@ -9,6 +9,8 @@ Fighter::Fighter()
 	this->m_position = POINT{ 0, 0 };
 	this->m_life = 100;
 	this->m_lives = 3;
+	this->m_transitionDelay = 0.0f;
+	this->m_shootDelay = 0.0f;
 }
 
 Fighter::Fighter(const Fighter& other)
@@ -42,6 +44,18 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 	int order[16] = { 7, 6, 5, 4, 3, 2, 1, 0, 8, 9, 10, 11, 12, 13, 14, 15 };
 	this->m_Sprite->SortFrameArray(order, 16);
 
+	this->m_Timer = new Timer();
+	if (!this->m_Timer)
+	{
+		return false;
+	}
+
+	result = this->m_Timer->Initialize();
+	if (!result)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -63,36 +77,58 @@ bool Fighter::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix,
 	return true;
 }
 
-void Fighter::InterpretAction(const InputHandler::ControlsType& controls)
+void Fighter::Frame(const InputHandler::ControlsType& controls)
 {
+	this->m_Timer->Frame();
+
+	this->m_transitionDelay += this->m_Timer->GetTime();
+	this->m_shootDelay += this->m_Timer->GetTime();
+
 	if (controls.up ^ controls.down)
 	{
 		if (controls.up)
 		{
 			if (this->m_position.y > 0)
 			{
-				this->m_position.y -= this->m_SPEED;
+				this->m_position.y -= SHIP_SPEED;
 			}
-			this->m_Sprite->IncrementFrame();
+
+			if (this->m_transitionDelay >= FRAME_TRANSITION_DELAY)
+			{
+				this->m_Sprite->IncrementFrame();
+				this->m_transitionDelay = 0.0f;
+			}
 		}
 		else if (controls.down)
 		{
 			if (this->m_position.y < (this->m_Sprite->GetBitmap()->GetScreenDimensions().height - this->m_Sprite->GetBitmap()->GetBitmapDimensions().height))
 			{
-				this->m_position.y += this->m_SPEED;
+				this->m_position.y += SHIP_SPEED;
 			}
-			this->m_Sprite->DecrementFrame();
+			if (this->m_transitionDelay >= FRAME_TRANSITION_DELAY)
+			{
+				this->m_Sprite->DecrementFrame();
+				this->m_transitionDelay = 0.0f;
+			}
 		}
 	}
 	else
 	{
 		if (this->m_Sprite->GetCurrentFrame() > (this->m_Sprite->GetAmountOfFrames() / 2))
 		{
-			this->m_Sprite->DecrementFrame();
+			if (this->m_transitionDelay >= FRAME_TRANSITION_DELAY)
+			{
+				this->m_Sprite->DecrementFrame();
+				this->m_transitionDelay = 0.0f;
+			}
 		}
 		if (this->m_Sprite->GetCurrentFrame() < (this->m_Sprite->GetAmountOfFrames() / 2))
 		{
-			this->m_Sprite->IncrementFrame();
+			if (this->m_transitionDelay >= FRAME_TRANSITION_DELAY)
+			{
+				this->m_Sprite->IncrementFrame();
+				this->m_transitionDelay = 0.0f;
+			}
 		}
 	}
 
@@ -100,14 +136,14 @@ void Fighter::InterpretAction(const InputHandler::ControlsType& controls)
 	{
 		if (this->m_position.x < (this->m_Sprite->GetBitmap()->GetScreenDimensions().width - this->m_Sprite->GetBitmap()->GetBitmapDimensions().width))
 		{
-			this->m_position.x += this->m_SPEED;
+			this->m_position.x += SHIP_SPEED;
 		}
 	}
 	else if (controls.left)
 	{
 		if (this->m_position.x > 0)
 		{
-			this->m_position.x -= this->m_SPEED;
+			this->m_position.x -= SHIP_SPEED;
 		}
 	}
 

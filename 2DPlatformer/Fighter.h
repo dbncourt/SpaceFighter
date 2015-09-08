@@ -4,11 +4,16 @@
 #ifndef _FIGHTER_H_
 #define _FIGHTER_H_
 
+#define SHIP_SPEED 5
+#define FRAME_TRANSITION_DELAY 35.0f
+#define SHOOT_DELAY 35.0f
+
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "Sprite.h"
 #include "InputHandler.h"
+#include "Timer.h"
 
 class Fighter
 {
@@ -21,13 +26,15 @@ public:
 	void Shutdown();
 	bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX orthoMatrix);
 
-	void InterpretAction(const InputHandler::ControlsType& controls);
+	void Frame(const InputHandler::ControlsType& controls);
 
 private:
 	Sprite* m_Sprite;
+	Timer* m_Timer;
 	POINT m_position;
 	int m_life;
 	int m_lives;
-	const int m_SPEED = 5;
+	float m_transitionDelay;
+	float m_shootDelay;
 };
 #endif
