@@ -59,7 +59,7 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Initialize the Fighter Object
-	result = this->m_Fighter->Initialize(this->m_Direct3D->GetDevice(), hwnd, Bitmap::DimensionType{ screenWidth, screenHeight }, L"Fighter.dds", Bitmap::DimensionType{ 1152, 216 }, Bitmap::DimensionType{ 144, 108 }, POINT{ 0, 0 }, 8, 7, POINT{0, 0}, 100, 3);
+	result = this->m_Fighter->Initialize(this->m_Direct3D->GetDevice(), hwnd, Bitmap::DimensionType{ screenWidth, screenHeight });
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the Fighter Object.", L"Error", MB_OK);

@@ -16,12 +16,14 @@ Sprite::Sprite(const Sprite& other)
 
 Sprite::~Sprite()
 {
+	Sprite::Shutdown();
 }
 
 bool Sprite::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* textureFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, POINT offset, int numberOfFramesAcross, int initialFrame)
 {
 	bool result;
 
+	this->m_initialFrame = initialFrame;
 	this->m_currentFrame = initialFrame;
 
 	this->m_Bitmap = new Bitmap();
@@ -66,17 +68,20 @@ bool Sprite::Render(ID3D11DeviceContext* deviceContext, POINT position, D3DXMATR
 {
 	bool result;
 
-	D3DXVECTOR4 frameCoordinates = D3DXVECTOR4(this->m_frameArray[this->m_currentFrame].x, this->m_frameArray[this->m_currentFrame].y, this->m_frameArray[this->m_currentFrame].width, this->m_frameArray[this->m_currentFrame].height);
-	result = this->m_Bitmap->Render(deviceContext, position, frameCoordinates);
-	if (!result)
+	if (this->m_currentFrame > -1)
 	{
-		return false;
-	}
+		D3DXVECTOR4 frameCoordinates = D3DXVECTOR4(this->m_frameArray[this->m_currentFrame].x, this->m_frameArray[this->m_currentFrame].y, this->m_frameArray[this->m_currentFrame].width, this->m_frameArray[this->m_currentFrame].height);
+		result = this->m_Bitmap->Render(deviceContext, position, frameCoordinates);
+		if (!result)
+		{
+			return false;
+		}
 
-	result = this->m_TextureShader->Render(deviceContext, this->m_Bitmap->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix, this->m_Bitmap->GetTexture());
-	if (!result)
-	{
-		return false;
+		result = this->m_TextureShader->Render(deviceContext, this->m_Bitmap->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix, this->m_Bitmap->GetTexture());
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -96,6 +101,11 @@ void Sprite::DecrementFrame()
 	{
 		--this->m_currentFrame;
 	}
+}
+
+void Sprite::ResetFrame()
+{
+	this->m_currentFrame = this->m_initialFrame;
 }
 
 int Sprite::GetCurrentFrame()
@@ -129,7 +139,7 @@ void Sprite::InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::Dimensio
 	}
 }
 
-void Sprite::SortFrameArray(int* framesOrder, int size)
+void Sprite::SortFrameArray(const int* framesOrder, int size)
 {
 	FrameType* tmp = new FrameType[size];
 

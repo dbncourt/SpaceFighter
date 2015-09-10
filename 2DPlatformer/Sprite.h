@@ -37,11 +37,12 @@ public:
 
 	void IncrementFrame();
 	void DecrementFrame();
+	void ResetFrame();
 
 	int GetCurrentFrame();
 	int GetAmountOfFrames();
 
-	void SortFrameArray(int* framesOrder, int size);
+	void SortFrameArray(const int* framesOrder, int size);
 
 	Bitmap* GetBitmap();
 
@@ -51,6 +52,7 @@ private:
 private:
 	FrameType* m_frameArray;
 	int m_currentFrame;
+	int m_initialFrame;
 	int m_amountOfFrames;
 	Bitmap* m_Bitmap;
 	TextureShader* m_TextureShader;
