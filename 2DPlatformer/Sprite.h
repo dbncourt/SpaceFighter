@@ -31,7 +31,7 @@ public:
 	Sprite(const Sprite& other);
 	~Sprite();
 
-	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* textureFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, POINT offset, int numberOfFramesAcross, int initialFrame);
+	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* textureFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, int numberOfFramesAcross, int initialFrame);
 	void Shutdown();
 	bool Render(ID3D11DeviceContext* deviceContext, POINT position, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX orthoMatrix);
 
@@ -47,7 +47,7 @@ public:
 	Bitmap* GetBitmap();
 
 private:
-	void InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::DimensionType dimensions, POINT offset, int numberOfFrameAcross);
+	void InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::DimensionType dimensions, int numberOfFrameAcross);
 
 private:
 	FrameType* m_frameArray;

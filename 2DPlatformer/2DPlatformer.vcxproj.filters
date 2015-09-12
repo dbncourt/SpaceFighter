@@ -75,6 +75,12 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FighterFlame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Direct3D.cpp">
@@ -119,6 +125,12 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FighterFlame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturePixelShader.hlsl">
@@ -142,6 +154,12 @@
       <Filter>Resource Files\Texture</Filter>
     </Image>
     <Image Include="Numbers.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="Bullet.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="Flame.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
   </ItemGroup>

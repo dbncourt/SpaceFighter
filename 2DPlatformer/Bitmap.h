@@ -54,6 +54,9 @@ public:
 	DimensionType GetScreenDimensions();
 	DimensionType GetBitmapDimensions();
 
+	int GetVertexCount();
+	int GetInstanceCount();
+
 private:
 	bool InitializeBuffers(ID3D11Device* device);
 	void ShutdownBuffers();

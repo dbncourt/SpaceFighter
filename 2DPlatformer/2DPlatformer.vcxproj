@@ -15,6 +15,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="Fighter.h" />
+    <ClInclude Include="FighterFlame.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
@@ -30,6 +32,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="FighterFlame.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -56,8 +60,10 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Bullet.dds" />
     <Image Include="Explosion.dds" />
     <Image Include="Fighter.dds" />
+    <Image Include="Flame.dds" />
     <Image Include="Misc.dds" />
     <Image Include="Numbers.dds" />
     <Image Include="seafloor.dds" />

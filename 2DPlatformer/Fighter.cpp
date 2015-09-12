@@ -3,17 +3,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "Fighter.h"
 
-Fighter::Fighter()
+Fighter::Fighter() : GameObject()
 {
-	this->m_Ship = nullptr;
-	this->m_Flame = nullptr;
-	this->m_position = POINT{ 0, 0 };
 	this->m_life = 100;
 	this->m_lives = 3;
-	this->m_shipDelay = 0.0f;
-	this->m_shootDelay = 0.0f;
-	this->m_movementDelay = 0.0f;
-	this->m_flameDelay = 0.0f;
+
+	this->m_FighterFlame = nullptr;
 }
 
 Fighter::Fighter(const Fighter& other)
@@ -28,44 +23,48 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 {
 	bool result;
 
-	this->m_position = POINT{ 0, 0 };
 	this->m_life = 100;
 	this->m_lives = 3;
 
-	this->m_Ship = new Sprite();
-	if (!this->m_Ship)
-	{
-		return false;
-	}
-
-	result = this->m_Ship->Initialize(device, hwnd, screen, L"Fighter.dds", Bitmap::DimensionType{ 1152, 216 }, Bitmap::DimensionType{ 144, 108 }, POINT{ 0, 0 }, 8, 7);
+	result = GameObject::Initialize(device, hwnd, screen, L"Fighter.dds", Bitmap::DimensionType{ 1152, 216 }, Bitmap::DimensionType{ 144, 108 }, 8, 7, true);
 	if (!result)
 	{
+		MessageBox(hwnd, L"Could not initialize Fighter", L"Error", MB_OK);
 		return false;
 	}
 
+	this->m_position = POINT{ 0, 0 };
+	
 	int order[16] = { 7, 6, 5, 4, 3, 2, 1, 0, 8, 9, 10, 11, 12, 13, 14, 15 };
-	this->m_Ship->SortFrameArray(order, 16);
+	GameObject::SortFrameArray(order, 16);
 
-	this->m_Flame = new Sprite();
-	if (!this->m_Flame)
+	this->m_FighterFlame = new FighterFlame();
+	if (!this->m_FighterFlame)
 	{
 		return false;
 	}
 
-	result = this->m_Flame->Initialize(device, hwnd, screen, L"Flame.dds", Bitmap::DimensionType{ 141, 26 }, Bitmap::DimensionType{ 47, 13 }, POINT{ 0, 0 }, 3, -1);
+	result = this->m_FighterFlame->Initialize(device, hwnd, screen);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize FighterFlame", L"Error", MB_OK);
+		return false;
+	}
+
+	return true;
+}
+
+bool Fighter::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
+{
+	bool result;
+	
+	result = GameObject::Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
 	}
 
-	this->m_Timer = new Timer();
-	if (!this->m_Timer)
-	{
-		return false;
-	}
-
-	result = this->m_Timer->Initialize();
+	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
@@ -76,85 +75,62 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 
 void Fighter::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Ship);
-
-	Fighter::ShutdownShootsList();
-}
-
-bool Fighter::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX orthoMatrix)
-{
-	bool result;
-
-	result = this->m_Flame->Render(deviceContext, POINT{ this->m_position.x - 26, this->m_position.y + 47 }, worldMatrix, viewMatrix, orthoMatrix);
-	if (!result)
-	{
-		return false;
-	}
-
-	result = this->m_Ship->Render(deviceContext, this->m_position, worldMatrix, viewMatrix, orthoMatrix);
-	if (!result)
-	{
-		return false;
-	}
-
-	return true;
+	GameObject::Shutdown();
+	SAFE_SHUTDOWN(this->m_FighterFlame);
 }
 
 void Fighter::Frame(const InputHandler::ControlsType& controls)
 {
-	this->m_Timer->Frame();
+	GameObject::Frame(controls);
+	this->m_FighterFlame->SetPosition(POINT{ this->m_position.x - 26, this->m_position.y + 47});
+	this->m_FighterFlame->Frame(controls);
 
-	this->m_shipDelay += this->m_Timer->GetTime();
-	this->m_shootDelay += this->m_Timer->GetTime();
-	this->m_movementDelay += this->m_Timer->GetTime();
-	this->m_flameDelay += this->m_Timer->GetTime();
-
-	if (this->m_movementDelay > MOVEMENT_DELAY)
+	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
 	{
 		if (controls.up ^ controls.down)
 		{
 			if (controls.up)
 			{
-				if (this->m_position.y > 0)
+				if (GameObject::GetPosition().y > 0)
 				{
-					this->m_position.y -= SHIP_SPEED;
+					GameObject::Move(D3DXVECTOR2(0, -SHIP_SPEED));
 				}
 
-				if (this->m_shipDelay > SHIP_DELAY)
+				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
 				{
-					this->m_Ship->IncrementFrame();
-					this->m_shipDelay = 0.0f;
+					GameObject::GetSprite()->IncrementFrame();
+					GameObject::ResetAnimationDelayTime();
 				}
 			}
 			else if (controls.down)
 			{
-				if (this->m_position.y < (this->m_Ship->GetBitmap()->GetScreenDimensions().height - this->m_Ship->GetBitmap()->GetBitmapDimensions().height))
+				if (GameObject::GetPosition().y < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().height - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().height))
 				{
-					this->m_position.y += SHIP_SPEED;
+					GameObject::Move(D3DXVECTOR2(0, SHIP_SPEED));
 				}
-				if (this->m_shipDelay > SHIP_DELAY)
+				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
 				{
-					this->m_Ship->DecrementFrame();
-					this->m_shipDelay = 0.0f;
+					GameObject::GetSprite()->DecrementFrame();
+					GameObject::ResetAnimationDelayTime();
 				}
 			}
 		}
 		else
 		{
-			if (this->m_Ship->GetCurrentFrame() > (this->m_Ship->GetAmountOfFrames() / 2))
+			if (GameObject::GetSprite()->GetCurrentFrame() > (GameObject::GetSprite()->GetAmountOfFrames() / 2))
 			{
-				if (this->m_shipDelay > SHIP_DELAY)
+				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
 				{
-					this->m_Ship->DecrementFrame();
-					this->m_shipDelay = 0.0f;
+					GameObject::GetSprite()->DecrementFrame();
+					GameObject::ResetAnimationDelayTime();
 				}
 			}
-			if (this->m_Ship->GetCurrentFrame() < (this->m_Ship->GetAmountOfFrames() / 2))
+			if (GameObject::GetSprite()->GetCurrentFrame() < (GameObject::GetSprite()->GetAmountOfFrames() / 2))
 			{
-				if (this->m_shipDelay > SHIP_DELAY)
+				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
 				{
-					this->m_Ship->IncrementFrame();
-					this->m_shipDelay = 0.0f;
+					GameObject::GetSprite()->IncrementFrame();
+					GameObject::ResetAnimationDelayTime();
 				}
 			}
 		}
@@ -162,52 +138,24 @@ void Fighter::Frame(const InputHandler::ControlsType& controls)
 		{
 			if (controls.right)
 			{
-				if (this->m_position.x < (this->m_Ship->GetBitmap()->GetScreenDimensions().width - this->m_Ship->GetBitmap()->GetBitmapDimensions().width))
+				if (GameObject::GetPosition().x < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().width))
 				{
-					this->m_position.x += SHIP_SPEED;
-				}
-				if (this->m_flameDelay > FLAME_DELAY)
-				{
-					this->m_Flame->IncrementFrame();
-					this->m_flameDelay = 0.0f;
+					GameObject::Move(D3DXVECTOR2(SHIP_SPEED, 0));
 				}
 			}
 			else if (controls.left)
 			{
-				if (this->m_position.x > 0)
+				if (GameObject::GetPosition().x > 0)
 				{
-					this->m_position.x -= SHIP_SPEED;
+					GameObject::Move(D3DXVECTOR2(-SHIP_SPEED, 0));
 				}
 			}
 		}
-		else
-		{
-			this->m_Flame->ResetFrame();
-		}
-		this->m_movementDelay = 0.0f;
+		GameObject::ResetMovementDelayTime();
 	}
 
 	if (controls.spaceBar)
 	{
-
-	}
-}
-
-void Fighter::ShutdownShootsList()
-{
-	for (Sprite** s : this->m_Shoots)
-	{
-		SAFE_SHUTDOWN(*s);
-	}
-
-	this->m_Shoots.clear();
-}
-
-Sprite* Fighter::GenerateShoot(D3DXVECTOR2 direction)
-{
-	Sprite* shoot = new Sprite();
-	if (!shoot)
-	{
-		return false;
+		
 	}
 }

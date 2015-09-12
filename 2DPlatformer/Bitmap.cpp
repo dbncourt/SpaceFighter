@@ -276,3 +276,8 @@ void Bitmap::ReleaseTexture()
 {
 	SAFE_SHUTDOWN(this->m_Texture);
 }
+
+int Bitmap::GetVertexCount()
+{
+	return this->m_vertexCount;
+}

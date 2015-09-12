@@ -19,7 +19,7 @@ Sprite::~Sprite()
 	Sprite::Shutdown();
 }
 
-bool Sprite::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* textureFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, POINT offset, int numberOfFramesAcross, int initialFrame)
+bool Sprite::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* textureFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, int numberOfFramesAcross, int initialFrame)
 {
 	bool result;
 
@@ -52,7 +52,7 @@ bool Sprite::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType s
 		return false;
 	}
 
-	Sprite::InitializeFrameArray(bitmap, sprite, offset, numberOfFramesAcross);
+	Sprite::InitializeFrameArray(bitmap, sprite, numberOfFramesAcross);
 
 	return true;
 }
@@ -118,7 +118,7 @@ int Sprite::GetAmountOfFrames()
 	return this->m_amountOfFrames;
 }
 
-void Sprite::InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::DimensionType dimensions, POINT offset, int numberOfFrameAcross)
+void Sprite::InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::DimensionType dimensions, int numberOfFrameAcross)
 {
 	int verticalAmountOfFrames = (bitmap.height / dimensions.height);
 	this->m_amountOfFrames = numberOfFrameAcross * verticalAmountOfFrames;
@@ -129,10 +129,10 @@ void Sprite::InitializeFrameArray(Bitmap::DimensionType bitmap, Bitmap::Dimensio
 		for (int j = 0; j < numberOfFrameAcross; j++)
 		{
 			FrameType frame;
-			frame.x = static_cast<float>((j * dimensions.width) + offset.x) / static_cast<float>(bitmap.width);
-			frame.y = static_cast<float>((i * dimensions.height) + offset.y) / static_cast<float>(bitmap.height);
-			frame.width = (static_cast<float>(dimensions.width + offset.x) / static_cast<float>(bitmap.width)) + frame.x;
-			frame.height = (static_cast<float>(dimensions.height + offset.y) / static_cast<float>(bitmap.height)) + frame.y;
+			frame.x = static_cast<float>(j * dimensions.width) / static_cast<float>(bitmap.width);
+			frame.y = static_cast<float>(i * dimensions.height) / static_cast<float>(bitmap.height);
+			frame.width = (static_cast<float>(dimensions.width) / static_cast<float>(bitmap.width)) + frame.x;
+			frame.height = (static_cast<float>(dimensions.height) / static_cast<float>(bitmap.height)) + frame.y;
 			
 			this->m_frameArray[(i * numberOfFrameAcross) + j] = frame;
 		}
