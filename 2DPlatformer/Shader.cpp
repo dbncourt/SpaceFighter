@@ -18,7 +18,6 @@ Shader::Shader(const Shader& other)
 
 Shader::~Shader()
 {
-
 }
 
 void Shader::Shutdown()

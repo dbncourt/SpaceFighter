@@ -24,6 +24,8 @@ bool FighterFlame::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimension
 	{
 		return false;
 	}
+
+	return true;
 }
 
 void FighterFlame::Frame(const InputHandler::ControlsType& controls)

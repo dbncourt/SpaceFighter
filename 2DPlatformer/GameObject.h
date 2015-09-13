@@ -11,7 +11,7 @@
 #include "InputHandler.h"
 #include "Timer.h"
 
-class GameObject : public Sprite
+class GameObject
 {
 public:
 	GameObject();
@@ -43,6 +43,9 @@ public:
 
 	float GetAnimationDelayTime();
 	void ResetAnimationDelayTime();
+
+	ID3D11Device* GetDevice();
+	HWND GetHWND();
 
 	Sprite* GetSprite();
 

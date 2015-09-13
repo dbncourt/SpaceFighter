@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "GameObject.h"
 
-GameObject::GameObject() : Sprite()
+GameObject::GameObject()
 {
 	this->m_Sprite = nullptr;
 	this->m_Timer = nullptr;
@@ -147,4 +147,14 @@ float GameObject::GetMovementDelayTime()
 void GameObject::ResetAnimationDelayTime()
 {
 	this->m_animationDelay = 0.0f;
+}
+
+ID3D11Device* GameObject::GetDevice()
+{
+	return this->m_device;
+}
+
+HWND GameObject::GetHWND()
+{
+	return this->m_hwnd;
 }

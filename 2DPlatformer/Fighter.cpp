@@ -70,6 +70,18 @@ bool Fighter::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, 
 		return false;
 	}
 
+	for (Bullet** bullet : this->m_Bullets)
+	{
+		if (bullet)
+		{
+			result = (*bullet)->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+			if (!result)
+			{
+				return false;
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -77,6 +89,12 @@ void Fighter::Shutdown()
 {
 	GameObject::Shutdown();
 	SAFE_SHUTDOWN(this->m_FighterFlame);
+	
+	for (Bullet** bullet : this->m_Bullets)
+	{
+		SAFE_SHUTDOWN(*bullet);
+	}
+	this->m_Bullets.clear();
 }
 
 void Fighter::Frame(const InputHandler::ControlsType& controls)
@@ -84,6 +102,11 @@ void Fighter::Frame(const InputHandler::ControlsType& controls)
 	GameObject::Frame(controls);
 	this->m_FighterFlame->SetPosition(POINT{ this->m_position.x - 26, this->m_position.y + 47});
 	this->m_FighterFlame->Frame(controls);
+
+	for (Bullet** bullet : this->m_Bullets)
+	{
+		(*bullet)->Frame(controls);
+	}
 
 	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
 	{
@@ -156,6 +179,43 @@ void Fighter::Frame(const InputHandler::ControlsType& controls)
 
 	if (controls.spaceBar)
 	{
-		
+		Fighter::GenerateTriBullet();
+	}
+	Fighter::ValidateBulletsBounds();
+}
+
+void Fighter::GenerateTriBullet()
+{
+	Bullet* upBullet = new Bullet();
+	upBullet->Initialize(this->m_FighterFlame->GetDevice(), this->m_FighterFlame->GetHWND(), this->m_FighterFlame->GetSprite()->GetBitmap()->GetScreenDimensions());
+	upBullet->SetVelocity(D3DXVECTOR2(20, 2));
+	upBullet->SetPosition(GameObject::GetPosition());
+	upBullet->Move();
+	this->m_Bullets.push_back(&upBullet);
+
+	Bullet* middleBullet = new Bullet();
+	middleBullet->Initialize(this->m_FighterFlame->GetDevice(), this->m_FighterFlame->GetHWND(), this->m_FighterFlame->GetSprite()->GetBitmap()->GetScreenDimensions());
+	middleBullet->SetVelocity(D3DXVECTOR2(20, 0));
+	middleBullet->SetPosition(GameObject::GetPosition());
+	middleBullet->Move();
+	this->m_Bullets.push_back(&middleBullet);
+
+	Bullet* downBullet = new Bullet();
+	downBullet->Initialize(this->m_FighterFlame->GetDevice(), this->m_FighterFlame->GetHWND(), this->m_FighterFlame->GetSprite()->GetBitmap()->GetScreenDimensions());
+	downBullet->SetVelocity(D3DXVECTOR2(20, -2));
+	downBullet->SetPosition(GameObject::GetPosition());
+	downBullet->Move();
+	this->m_Bullets.push_back(&downBullet);
+}
+
+void Fighter::ValidateBulletsBounds()
+{
+	for (std::list<Bullet**>::iterator it = this->m_Bullets.begin(); it != this->m_Bullets.end(); it++)
+	{
+		if ((*(*(&(it)._Ptr->_Myval)))->GetPosition().x > GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width)
+		{
+			SAFE_SHUTDOWN(**it);
+			this->m_Bullets.erase(it);
+		}
 	}
 }

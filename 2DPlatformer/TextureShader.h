@@ -25,5 +25,4 @@ private:
 	virtual void ShutdownShaders() override;
 	bool SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, ID3D11ShaderResourceView* texture);
 };
-
 #endif
