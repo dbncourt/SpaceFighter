@@ -20,7 +20,7 @@
 ///////////////////////
 #include "Direct3D.h"
 #include "Camera.h"
-#include "Fighter.h"
+#include "Game.h"
 
 /////////////
 // GLOBALS //
@@ -39,7 +39,7 @@ class Graphics
 private:
 	Direct3D* m_Direct3D;
 	Camera* m_Camera;
-	Fighter* m_Fighter;
+	Game* m_Game;
 
 public:
 	Graphics();

@@ -94,7 +94,7 @@ void GameObject::SortFrameArray(const int* framesOrder, int size)
 	this->m_Sprite->SortFrameArray(framesOrder, size);
 }
 
-void GameObject::SetPosition(const POINT& position)
+void GameObject::SetPosition(const POINT position)
 {
 	this->m_position = position;
 }
@@ -102,6 +102,11 @@ void GameObject::SetPosition(const POINT& position)
 const POINT GameObject::GetPosition()
 {
 	return this->m_position;
+}
+
+const POINT* GameObject::GetPositionAddress()
+{
+	return &this->m_position;
 }
 
 void GameObject::SetVelocity(const D3DXVECTOR2& velocity)

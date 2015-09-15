@@ -7,10 +7,6 @@ Bullet::Bullet() : GameObject()
 {
 }
 
-Bullet::Bullet(const Bullet& other)
-{
-}
-
 Bullet::~Bullet()
 {
 }
@@ -22,6 +18,7 @@ bool Bullet::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType s
 	result = GameObject::Initialize(device, hwnd, screen, L"Bullet.dds", Bitmap::DimensionType{ 18, 3 }, Bitmap::DimensionType{ 18, 3 }, 1, 0, true);
 	if (!result)
 	{
+		MessageBox(hwnd, L"Could not initialize the Bullet GameObject.", L"Error", MB_OK);
 		return false;
 	}
 

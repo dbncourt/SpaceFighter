@@ -29,8 +29,9 @@ public:
 	virtual void Frame(const InputHandler::ControlsType& controls);
 	void SortFrameArray(const int* framesOrder, int size);
 
-	void SetPosition(const POINT& position);
+	void SetPosition(POINT position);
 	const POINT GetPosition();
+	const POINT* GetPositionAddress();
 
 	void SetVelocity(const D3DXVECTOR2& velocity);
 	const D3DXVECTOR2 GetVelocity();
@@ -49,7 +50,7 @@ public:
 
 	Sprite* GetSprite();
 
-protected:
+private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
 	Sprite* m_Sprite;
@@ -59,5 +60,8 @@ protected:
 	bool m_active;
 	float m_movementDelay;
 	float m_animationDelay;
+
+protected:
+	const float MOVEMENT_DELAY = 16.0f;
 };
 #endif

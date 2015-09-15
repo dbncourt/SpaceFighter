@@ -22,62 +22,36 @@ bool FighterFlame::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimension
 	result = GameObject::Initialize(device, hwnd, screen, L"Flame.dds", Bitmap::DimensionType{ 141, 26 }, Bitmap::DimensionType{ 47, 13 }, 3, -1, true);
 	if (!result)
 	{
+		MessageBox(hwnd, L"Could not initialize the FighterFlame GameObject.", L"Error", MB_OK);
 		return false;
 	}
 
 	return true;
 }
 
+bool FighterFlame::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
+{
+	return GameObject::GetSprite()->Render(
+		deviceContext,
+		POINT{ GameObject::GetPosition().x - 26, GameObject::GetPosition().y + 47},
+		wordMatrix, viewMatrix, projectionMatrix);
+}
+
+
 void FighterFlame::Frame(const InputHandler::ControlsType& controls)
 {
 	GameObject::Frame(controls);
 
-	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
+	if (controls.right)
 	{
-		if (controls.up ^ controls.down)
+		if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
 		{
-			if (controls.up)
-			{
-				if (GameObject::GetPosition().y > 0)
-				{
-					GameObject::Move(D3DXVECTOR2(0, -FLAME_SPEED));
-				}
-			}
-			else if (controls.down)
-			{
-				if (GameObject::GetPosition().y < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().height - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().height))
-				{
-					GameObject::Move(D3DXVECTOR2(0, FLAME_SPEED));
-				}
-			}
+			GameObject::GetSprite()->IncrementFrame();
+			GameObject::ResetAnimationDelayTime();
 		}
-		if (controls.right ^ controls.left)
-		{
-			if (controls.right)
-			{
-				if (GameObject::GetPosition().x < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().width))
-				{
-					GameObject::Move(D3DXVECTOR2(FLAME_SPEED, 0));
-					if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
-					{
-						GameObject::GetSprite()->IncrementFrame();
-						GameObject::ResetAnimationDelayTime();
-					}
-				}
-			}
-			else if (controls.left)
-			{
-				if (GameObject::GetPosition().x > 0)
-				{
-					GameObject::Move(D3DXVECTOR2(-FLAME_SPEED, 0));
-					GameObject::GetSprite()->ResetFrame();
-				}
-			}
-		}
-		else
-		{
-			GameObject::GetSprite()->ResetFrame();
-		}
-		GameObject::ResetMovementDelayTime();
+	}
+	else
+	{
+		GameObject::GetSprite()->ResetFrame();
 	}
 }

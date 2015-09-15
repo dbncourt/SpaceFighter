@@ -8,7 +8,7 @@ Graphics::Graphics()
 {
 	this->m_Direct3D = nullptr;
 	this->m_Camera = nullptr;
-	this->m_Fighter = nullptr;
+	this->m_Game = nullptr;
 }
 
 Graphics::Graphics(const Graphics& other)
@@ -52,17 +52,17 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	this->m_Camera->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -10.0f));
 
 	// Create the Fighter Object
-	this->m_Fighter = new Fighter();
-	if (!this->m_Fighter)
+	this->m_Game = new Game();
+	if (!this->m_Game)
 	{
 		return false;
 	}
 
 	// Initialize the Fighter Object
-	result = this->m_Fighter->Initialize(this->m_Direct3D->GetDevice(), hwnd, Bitmap::DimensionType{ screenWidth, screenHeight });
+	result = this->m_Game->Initialize(this->m_Direct3D->GetDevice(), hwnd, Bitmap::DimensionType{ screenWidth, screenHeight });
 	if (!result)
 	{
-		MessageBox(hwnd, L"Could not initialize the Fighter Object.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not initialize the Game Object.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -73,14 +73,14 @@ void Graphics::Shutdown()
 {
 	SAFE_SHUTDOWN(this->m_Direct3D);
 	SAFE_DELETE(this->m_Camera);
-	SAFE_SHUTDOWN(this->m_Fighter);
+	SAFE_SHUTDOWN(this->m_Game);
 }
 
 bool Graphics::Frame(InputHandler::ControlsType controls)
 {
 	bool result;
 	
-	this->m_Fighter->Frame(controls);
+	this->m_Game->Frame(controls);
 
 	//Render the graphics scene
 	result = Graphics::Render();
@@ -109,7 +109,7 @@ bool Graphics::Render()
 	this->m_Camera->GetViewMatrix(viewMatrix);
 	this->m_Direct3D->GetOrthoMatrix(orthoMatrix);
 
-	result = this->m_Fighter->Render(this->m_Direct3D->GetDeviceContext(), worldMatrix, viewMatrix, orthoMatrix);
+	result = this->m_Game->Render(this->m_Direct3D->GetDeviceContext(), worldMatrix, viewMatrix, orthoMatrix);
 	if (!result)
 	{
 		return false;
