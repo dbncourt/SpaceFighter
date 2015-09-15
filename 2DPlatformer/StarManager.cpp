@@ -109,14 +109,14 @@ void StarManager::Frame(const InputHandler::ControlsType& controls)
 
 void StarManager::ValidateStarsBounds()
 {
-	for (std::list<Star*>::iterator it = this->m_Stars.begin(); it != this->m_Stars.end(); it++)
+	for (Star* star : this->m_Stars)
 	{
-		if ((*it)->GetPosition().x < 0)
+		if (star->GetPosition().x < 0)
 		{
-			(*it)->SetPosition(
+			star->SetPosition(
 				POINT{
 				this->m_screenDimensions.width,
-				(*it)->GetPosition().y 
+				star->GetPosition().y
 			});
 		}
 	}

@@ -42,6 +42,6 @@ private:
 	Bitmap::DimensionType m_ScreenDimensions;
 	POINT m_relativePosition;
 
-	const float SHOOT_DELAY = 160.0f;
+	const float SHOOT_DELAY = 80.0f;
 };
 #endif

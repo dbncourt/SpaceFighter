@@ -23,6 +23,8 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Mine.h" />
+    <ClInclude Include="MineManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Star.h" />
@@ -46,6 +48,8 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="MineManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Star.cpp" />
@@ -74,9 +78,8 @@
     <Image Include="Explosion.dds" />
     <Image Include="Fighter.dds" />
     <Image Include="Flame.dds" />
-    <Image Include="Misc.dds" />
+    <Image Include="Mine.dds" />
     <Image Include="Numbers.dds" />
-    <Image Include="seafloor.dds" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{985D902A-C2AF-48A6-9340-D34FD390582B}</ProjectGuid>

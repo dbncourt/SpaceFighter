@@ -96,6 +96,12 @@
     <ClInclude Include="StarManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MineManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Direct3D.cpp">
@@ -161,6 +167,12 @@
     <ClCompile Include="StarManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MineManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturePixelShader.hlsl">
@@ -171,16 +183,10 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="seafloor.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </Image>
     <Image Include="Explosion.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
     <Image Include="Fighter.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </Image>
-    <Image Include="Misc.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
     <Image Include="Numbers.dds">
@@ -190,6 +196,9 @@
       <Filter>Resource Files\Texture</Filter>
     </Image>
     <Image Include="Flame.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="Mine.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
   </ItemGroup>

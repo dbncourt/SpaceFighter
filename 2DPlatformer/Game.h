@@ -11,6 +11,7 @@
 #include "FighterFlame.h"
 #include "BulletManager.h"
 #include "StarManager.h"
+#include "MineManager.h"
 
 class Game
 {
@@ -30,5 +31,6 @@ private:
 	FighterFlame* m_FighterFlame;
 	BulletManager* m_Bullets;
 	StarManager* m_Stars;
+	MineManager* m_Mines;
 };
 #endif

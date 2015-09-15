@@ -35,5 +35,4 @@ private:
 	std::list<Star*> m_Stars;
 	Bitmap::DimensionType m_screenDimensions;
 };
-
 #endif

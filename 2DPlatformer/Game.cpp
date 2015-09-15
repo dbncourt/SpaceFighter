@@ -6,6 +6,7 @@ Game::Game()
 	this->m_FighterFlame = nullptr;
 	this->m_Bullets = nullptr;
 	this->m_Stars = nullptr;
+	this->m_Mines = nullptr;
 }
 
 Game::Game(const Game& other)
@@ -71,6 +72,19 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the StarManager.", L"Error", MB_OK);
 		return false;
 	}
+
+	this->m_Mines = new MineManager();
+	if (!this->m_Mines)
+	{
+		return false;
+	}
+
+	result = this->m_Mines->Initialize(device, hwnd, screen, 20);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the MineManager.", L"Error", MB_OK);
+		return false;
+	}
 }
 
 void Game::Shutdown()
@@ -79,6 +93,7 @@ void Game::Shutdown()
 	SAFE_SHUTDOWN(this->m_FighterFlame);
 	SAFE_SHUTDOWN(this->m_Bullets);
 	SAFE_SHUTDOWN(this->m_Stars);
+	SAFE_SHUTDOWN(this->m_Mines);
 }
 
 bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
@@ -91,13 +106,19 @@ bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 		return false;
 	}
 
+	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
 	result = this->m_Fighter->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
 	}
 
-	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	result = this->m_Mines->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
@@ -121,6 +142,8 @@ void Game::Frame(const InputHandler::ControlsType& controls)
 	
 	this->m_Bullets->SetRelativePosition(this->m_Fighter->GetPosition());
 	this->m_Bullets->Frame(controls);
+
+	this->m_Mines->Frame(controls);
 
 	this->m_Stars->Frame(controls);
 }

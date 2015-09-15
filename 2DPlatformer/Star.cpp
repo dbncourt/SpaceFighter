@@ -19,7 +19,7 @@ bool Star::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 {
 	bool result;
 
-	result = GameObject::Initialize(device, hwnd, screen, L"Star.dds", Bitmap::DimensionType{ 1, 1 }, Bitmap::DimensionType{ 1, 1 }, 1, 1, true);
+	result = GameObject::Initialize(device, hwnd, screen, L"Star.dds", Bitmap::DimensionType{ 1, 1 }, Bitmap::DimensionType{ 1, 1 }, 1, 0, true);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the Star GameObject.", L"Error", MB_OK);
