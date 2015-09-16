@@ -26,6 +26,8 @@ bool Mine::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
+	GameObject::SetSphereCollider(GameObject::SphereColliderType{ 8.0f, POINT{ 8, 8 } });
+
 	return true;
 }
 

@@ -14,6 +14,13 @@
 class GameObject
 {
 public:
+	struct SphereColliderType
+	{
+		float radius;
+		POINT center;
+	};
+
+public:
 	GameObject();
 	GameObject(const GameObject& other);
 	~GameObject();
@@ -50,6 +57,9 @@ public:
 
 	Sprite* GetSprite();
 
+	void SetSphereCollider(SphereColliderType sphereCollder);
+	SphereColliderType GetSphereCollider();
+
 private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
@@ -57,6 +67,7 @@ private:
 	Timer* m_Timer;
 	POINT m_position;
 	D3DXVECTOR2 m_velocity;
+	SphereColliderType m_SphereCollider;
 	bool m_active;
 	float m_movementDelay;
 	float m_animationDelay;

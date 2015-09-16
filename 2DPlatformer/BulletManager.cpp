@@ -45,7 +45,7 @@ void BulletManager::Shutdown()
 {
 	SAFE_SHUTDOWN(this->m_Bullet);
 
-	for (Bullet* bullet : this->m_Bullets)
+	for (GameObject* bullet : this->m_Bullets)
 	{
 		SAFE_SHUTDOWN(bullet);
 	}
@@ -56,7 +56,7 @@ bool BulletManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMa
 {
 	bool result;
 
-	for (Bullet* bullet : this->m_Bullets)
+	for (GameObject* bullet : this->m_Bullets)
 	{
 		result = bullet->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 		if (!result)
@@ -72,9 +72,9 @@ void BulletManager::Frame(const InputHandler::ControlsType& controls)
 {
 	this->m_Bullet->Frame(controls);
 
-	for (Bullet* bullet : this->m_Bullets)
+	for (GameObject* bullet : this->m_Bullets)
 	{
-		bullet->Frame(controls);
+		dynamic_cast<Bullet*>(bullet)->Frame(controls);
 	}
 
 	if (controls.spaceBar)
@@ -114,7 +114,7 @@ void BulletManager::GenerateTriBullet()
 
 void BulletManager::ValidateBulletsBounds()
 {
-	for (std::list<Bullet*>::iterator it = this->m_Bullets.begin(); it != this->m_Bullets.end();)
+	for (std::list<GameObject*>::iterator it = this->m_Bullets.begin(); it != this->m_Bullets.end();)
 	{
 		if ((*it)->GetPosition().x > this->m_ScreenDimensions.width)
 		{
@@ -130,4 +130,9 @@ void BulletManager::ValidateBulletsBounds()
 void BulletManager::SetRelativePosition(POINT relativePosition)
 {
 	this->m_relativePosition = relativePosition;
+}
+
+std::list<GameObject*> BulletManager::GetList()
+{
+	return this->m_Bullets;
 }

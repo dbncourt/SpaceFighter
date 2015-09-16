@@ -27,12 +27,14 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
+	std::list<GameObject*> GetList();
+
 private:
 	void ValidateMinesBounds();
 
 private:
 	Mine* m_Mine;
-	std::list<Mine*> m_Mines;
+	std::list<GameObject*> m_Mines;
 	Bitmap::DimensionType m_screenDimensions;
 };
 #endif

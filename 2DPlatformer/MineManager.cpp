@@ -70,7 +70,7 @@ void MineManager::Shutdown()
 {
 	SAFE_SHUTDOWN(this->m_Mine);
 
-	for (Mine* mine : this->m_Mines)
+	for (GameObject* mine : this->m_Mines)
 	{
 		SAFE_SHUTDOWN(mine);
 	}
@@ -82,7 +82,7 @@ bool MineManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMat
 {
 	bool result;
 
-	for (Mine* mine : this->m_Mines)
+	for (GameObject* mine : this->m_Mines)
 	{
 		result = mine->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
 		if (!result)
@@ -98,9 +98,9 @@ void MineManager::Frame(const InputHandler::ControlsType& controls)
 {
 	this->m_Mine->Frame(controls);
 
-	for (Mine* mine : this->m_Mines)
+	for (GameObject* mine : this->m_Mines)
 	{
-		mine->Frame(controls);
+		dynamic_cast<Mine*>(mine)->Frame(controls);
 	}
 
 	MineManager::ValidateMinesBounds();
@@ -108,7 +108,7 @@ void MineManager::Frame(const InputHandler::ControlsType& controls)
 
 void MineManager::ValidateMinesBounds()
 {
-	for (Mine* mine : this->m_Mines)
+	for (GameObject* mine : this->m_Mines)
 	{
 		if (mine->GetPosition().x < 0)
 		{
@@ -118,4 +118,9 @@ void MineManager::ValidateMinesBounds()
 			});
 		}
 	}
+}
+
+std::list<GameObject*> MineManager::GetList()
+{
+	return this->m_Mines;
 }

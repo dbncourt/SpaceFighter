@@ -147,3 +147,30 @@ void Game::Frame(const InputHandler::ControlsType& controls)
 
 	this->m_Stars->Frame(controls);
 }
+
+void Game::CheckCollisions()
+{
+	for (GameObject* bullet : this->m_Bullets->GetList())
+	{
+		for (GameObject* mine : this->m_Mines->GetList())
+		{
+			if (Game::IsColliding(bullet, mine))
+			{
+				int i = 0;
+				i++;
+				i++;
+			}
+		}
+	}
+}
+
+bool Game::IsColliding(GameObject* gO1, GameObject* gO2)
+{
+	//Circle - Circle Collision = sqrt((h2 - h1)^2 + (k2 - k1)^2) <= (r1 + r2)^2
+
+	float a = (gO2->GetSphereCollider().center.x - gO1->GetSphereCollider().center.x);
+	float b = (gO2->GetSphereCollider().center.y - gO1->GetSphereCollider().center.y);
+	float r = (gO2->GetSphereCollider().radius + gO1->GetSphereCollider().radius);
+
+	return (((a*a) + (b*b)) <= r*r);
+}

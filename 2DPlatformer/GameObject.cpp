@@ -9,6 +9,7 @@ GameObject::GameObject()
 	this->m_Timer = nullptr;
 	this->m_movementDelay = 0.0f;
 	this->m_animationDelay = 0.0f;
+	this->m_SphereCollider = SphereColliderType{ 0.0f, POINT{ 0, 0 } };
 }
 
 GameObject::GameObject(const GameObject& other)
@@ -162,4 +163,21 @@ ID3D11Device* GameObject::GetDevice()
 HWND GameObject::GetHWND()
 {
 	return this->m_hwnd;
+}
+
+void GameObject::SetSphereCollider(GameObject::SphereColliderType sphereCollder)
+{
+	this->m_SphereCollider = sphereCollder;
+}
+
+GameObject::SphereColliderType GameObject::GetSphereCollider()
+{
+	SphereColliderType sphereCollider = { 
+		this->m_SphereCollider.radius, 
+		POINT{ 
+			this->m_position.x + this->m_SphereCollider.center.x,
+			this->m_position.y + this->m_SphereCollider.center.y 
+		}};
+
+	return sphereCollider;
 }

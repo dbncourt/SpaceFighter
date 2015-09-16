@@ -29,6 +29,8 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
+	std::list<GameObject*> GetList();
+
 private:
 	void GenerateTriBullet();
 	void ValidateBulletsBounds();
@@ -38,7 +40,7 @@ private:
 	HWND m_hwnd;
 	
 	Bullet* m_Bullet;
-	std::list<Bullet*> m_Bullets;
+	std::list<GameObject*> m_Bullets;
 	Bitmap::DimensionType m_ScreenDimensions;
 	POINT m_relativePosition;
 
