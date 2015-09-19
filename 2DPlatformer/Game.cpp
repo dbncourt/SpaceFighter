@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: Game.cpp
+////////////////////////////////////////////////////////////////////////////////
 #include "Game.h"
 
 Game::Game()
@@ -21,57 +24,57 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 {
 	bool result;
 
-	this->m_Fighter = new Fighter();
-	if (!this->m_Fighter)
-	{
-		return false;
-	}
-
-	result = this->m_Fighter->Initialize(device, hwnd, screen);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the Fighter.", L"Error", MB_OK);
-		return false;
-	}
-
-	this->m_FighterFlame = new FighterFlame();
-	if (!this->m_FighterFlame)
-	{
-		return false;
-	}
-
-	result = this->m_FighterFlame->Initialize(device, hwnd, screen);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the FighterFlame.", L"Error", MB_OK);
-		return false;
-	}
-
-	this->m_Bullets = new BulletManager();
-	if (!this->m_Bullets)
-	{
-		return false;
-	}
-
-	result = this->m_Bullets->Initialize(device, hwnd, screen);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the BulletManager.", L"Error", MB_OK);
-		return false;
-	}
-
-	this->m_Stars = new StarManager();
-	if (!this->m_Stars)
-	{
-		return false;
-	}
-
-	result = this->m_Stars->Initialize(device, hwnd, screen, 100);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the StarManager.", L"Error", MB_OK);
-		return false;
-	}
+// 	this->m_Fighter = new Fighter();
+// 	if (!this->m_Fighter)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_Fighter->Initialize(device, hwnd, screen);
+// 	if (!result)
+// 	{
+// 		MessageBox(hwnd, L"Could not initialize the Fighter.", L"Error", MB_OK);
+// 		return false;
+// 	}
+// 
+// 	this->m_FighterFlame = new FighterFlame();
+// 	if (!this->m_FighterFlame)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_FighterFlame->Initialize(device, hwnd, screen);
+// 	if (!result)
+// 	{
+// 		MessageBox(hwnd, L"Could not initialize the FighterFlame.", L"Error", MB_OK);
+// 		return false;
+// 	}
+// 
+// 	this->m_Bullets = new BulletManager();
+// 	if (!this->m_Bullets)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_Bullets->Initialize(device, hwnd, screen);
+// 	if (!result)
+// 	{
+// 		MessageBox(hwnd, L"Could not initialize the BulletManager.", L"Error", MB_OK);
+// 		return false;
+// 	}
+// 
+// 	this->m_Stars = new StarManager();
+// 	if (!this->m_Stars)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_Stars->Initialize(device, hwnd, screen, 100);
+// 	if (!result)
+// 	{
+// 		MessageBox(hwnd, L"Could not initialize the StarManager.", L"Error", MB_OK);
+// 		return false;
+// 	}
 
 	this->m_Mines = new MineManager();
 	if (!this->m_Mines)
@@ -79,7 +82,7 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_Mines->Initialize(device, hwnd, screen, 20);
+	result = this->m_Mines->Initialize(device, hwnd, screen, 1);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the MineManager.", L"Error", MB_OK);
@@ -89,10 +92,10 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 
 void Game::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Fighter);
-	SAFE_SHUTDOWN(this->m_FighterFlame);
-	SAFE_SHUTDOWN(this->m_Bullets);
-	SAFE_SHUTDOWN(this->m_Stars);
+// 	SAFE_SHUTDOWN(this->m_Fighter);
+// 	SAFE_SHUTDOWN(this->m_FighterFlame);
+// 	SAFE_SHUTDOWN(this->m_Bullets);
+// 	SAFE_SHUTDOWN(this->m_Stars);
 	SAFE_SHUTDOWN(this->m_Mines);
 }
 
@@ -100,77 +103,85 @@ bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 {
 	bool result;
 
-	result = this->m_Stars->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
-
-	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
-
-	result = this->m_Fighter->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
+// 	result = this->m_Stars->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+// 	if (!result)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+// 	if (!result)
+// 	{
+// 		return false;
+// 	}
+// 
+// 	result = this->m_Fighter->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+// 	if (!result)
+// 	{
+// 		return false;
+// 	}
 
 	result = this->m_Mines->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
 	}
-
-	result = this->m_Bullets->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
+// 
+// 	result = this->m_Bullets->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+// 	if (!result)
+// 	{
+// 		return false;
+// 	}
 
 	return true;
 }
 
 void Game::Frame(const InputHandler::ControlsType& controls)
 {
-	this->m_Fighter->Frame(controls);
-
-	this->m_FighterFlame->SetPosition(this->m_Fighter->GetPosition());
-	this->m_FighterFlame->Frame(controls);
-	
-	this->m_Bullets->SetRelativePosition(this->m_Fighter->GetPosition());
-	this->m_Bullets->Frame(controls);
+// 	this->m_Fighter->Frame(controls);
+// 
+// 	this->m_FighterFlame->SetPosition(this->m_Fighter->GetPosition());
+// 	this->m_FighterFlame->Frame(controls);
+// 	
+// 	this->m_Bullets->SetRelativePosition(this->m_Fighter->GetPosition());
+// 	this->m_Bullets->Frame(controls);
 
 	this->m_Mines->Frame(controls);
 
-	this->m_Stars->Frame(controls);
+// 	this->m_Stars->Frame(controls);
+// 
+// 	Game::CheckCollisions();
 }
 
 void Game::CheckCollisions()
 {
-	for (GameObject* bullet : this->m_Bullets->GetList())
+	for (std::list<GameObject*>::iterator bulletIterator = this->m_Bullets->GetList().begin(); bulletIterator != this->m_Bullets->GetList().end();)
 	{
+		GameObject* bullet = *bulletIterator;
 		for (GameObject* mine : this->m_Mines->GetList())
 		{
-			if (Game::IsColliding(bullet, mine))
+			if (Game::AreCircleCollidersColliding(bullet, mine))
 			{
-				int i = 0;
-				i++;
-				i++;
+				bulletIterator = this->m_Bullets->NotifyCollision(bulletIterator);
+				this->m_Mines->NotifyCollision(&mine);
+			}
+			else
+			{
+				bulletIterator++;
 			}
 		}
 	}
 }
 
-bool Game::IsColliding(GameObject* gO1, GameObject* gO2)
+bool Game::AreCircleCollidersColliding(GameObject* gO1, GameObject* gO2)
 {
-	//Circle - Circle Collision = sqrt((h2 - h1)^2 + (k2 - k1)^2) <= (r1 + r2)^2
+	CircleCollider* gO1Collider = dynamic_cast<CircleCollider*>(gO1->GetCollider());
+	CircleCollider* gO2Collider = dynamic_cast<CircleCollider*>(gO2->GetCollider());
 
-	float a = (gO2->GetSphereCollider().center.x - gO1->GetSphereCollider().center.x);
-	float b = (gO2->GetSphereCollider().center.y - gO1->GetSphereCollider().center.y);
-	float r = (gO2->GetSphereCollider().radius + gO1->GetSphereCollider().radius);
+	//Circle - Circle Collision = sqrt((h2 - h1)^2 + (k2 - k1)^2) <= (r1 + r2)^2
+	float a = (gO2Collider->GetCenter().x - gO1Collider->GetCenter().x);
+	float b = (gO2Collider->GetCenter().y - gO1Collider->GetCenter().y);
+	float r = (gO2Collider->GetRadius() + gO1Collider->GetRadius());
 
 	return (((a*a) + (b*b)) <= r*r);
 }

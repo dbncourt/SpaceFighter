@@ -30,6 +30,7 @@ public:
 	void Frame(const InputHandler::ControlsType& controls);
 
 	std::list<GameObject*> GetList();
+	std::list<GameObject*>::iterator NotifyCollision(std::list<GameObject*>::iterator it);
 
 private:
 	void GenerateTriBullet();

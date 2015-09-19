@@ -31,7 +31,7 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 		return false;
 	}
 
-	GameObject::SetPosition(POINT{ 0, 0 });
+	GameObject::SetPosition(POINT{ 0, (screen.height/2) - 45 });
 	
 	int order[16] = { 7, 6, 5, 4, 3, 2, 1, 0, 8, 9, 10, 11, 12, 13, 14, 15 };
 	GameObject::SortFrameArray(order, 16);

@@ -6,10 +6,10 @@
 GameObject::GameObject()
 {
 	this->m_Sprite = nullptr;
+	this->m_Collider = nullptr;
 	this->m_Timer = nullptr;
 	this->m_movementDelay = 0.0f;
 	this->m_animationDelay = 0.0f;
-	this->m_SphereCollider = SphereColliderType{ 0.0f, POINT{ 0, 0 } };
 }
 
 GameObject::GameObject(const GameObject& other)
@@ -23,9 +23,6 @@ GameObject::~GameObject()
 bool GameObject::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* spriteFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, int numberOfFramesAcross, int initialFrame, bool useTimer)
 {
 	bool result;
-
-	this->m_device = device;
-	this->m_hwnd = hwnd;
 
 	this->m_Sprite = new Sprite();
 	if (!this->m_Sprite)
@@ -59,6 +56,7 @@ bool GameObject::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionTy
 void GameObject::Shutdown()
 {
 	SAFE_SHUTDOWN(this->m_Sprite);
+	SAFE_SHUTDOWN(this->m_Collider);
 	SAFE_DELETE(this->m_Timer);
 }
 
@@ -147,7 +145,7 @@ void GameObject::ResetMovementDelayTime()
 
 float GameObject::GetMovementDelayTime()
 {
-	return this->m_animationDelay;
+	return this->m_movementDelay;
 }
 
 void GameObject::ResetAnimationDelayTime()
@@ -155,29 +153,7 @@ void GameObject::ResetAnimationDelayTime()
 	this->m_animationDelay = 0.0f;
 }
 
-ID3D11Device* GameObject::GetDevice()
+Collider* GameObject::GetCollider()
 {
-	return this->m_device;
-}
-
-HWND GameObject::GetHWND()
-{
-	return this->m_hwnd;
-}
-
-void GameObject::SetSphereCollider(GameObject::SphereColliderType sphereCollder)
-{
-	this->m_SphereCollider = sphereCollder;
-}
-
-GameObject::SphereColliderType GameObject::GetSphereCollider()
-{
-	SphereColliderType sphereCollider = { 
-		this->m_SphereCollider.radius, 
-		POINT{ 
-			this->m_position.x + this->m_SphereCollider.center.x,
-			this->m_position.y + this->m_SphereCollider.center.y 
-		}};
-
-	return sphereCollider;
+	return this->m_Collider;
 }

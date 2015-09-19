@@ -23,7 +23,6 @@ bool Bitmap::Initialize(ID3D11Device* device, DimensionType screen, WCHAR* textu
 	bool result;
 
 	this->m_screen = screen;
-	this->m_previousPosition = { -1, -1 };
 	this->m_bitmap = bitmap;
 
 	result = Bitmap::InitializeBuffers(device);
@@ -175,22 +174,16 @@ bool Bitmap::UpdateBuffers(ID3D11DeviceContext* deviceContext, POINT position, D
 {
 	HRESULT result;
 
-// 	if (this->m_previousPosition.x == position.x && this->m_previousPosition.y == position.y)
-// 	{
-// 		return true;
-// 	}
-
-	this->m_previousPosition = position;
 	RECT imagePosition;
 
 	//Calculate the screen coordinates of the left side of the bitmap
-	imagePosition.left = static_cast<float>(-this->m_screen.width / 2) + static_cast<float>(this->m_previousPosition.x);
+	imagePosition.left = static_cast<float>(-this->m_screen.width / 2) + static_cast<float>(position.x);
 
 	//Calculate the screen coordinates of the right side of the bitmap
 	imagePosition.right = imagePosition.left + static_cast<float>(this->m_bitmap.width);
 
 	//Calculate the screen coordinates of the top of the bitmap
-	imagePosition.top = static_cast<float>(this->m_screen.height / 2) - static_cast<float>(this->m_previousPosition.y);
+	imagePosition.top = static_cast<float>(this->m_screen.height / 2) - static_cast<float>(position.y);
 
 	//Calculate the screen coordinates of the bottom of the bitmap
 	imagePosition.bottom = imagePosition.top - static_cast<float>(this->m_bitmap.height);

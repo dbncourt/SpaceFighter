@@ -5,6 +5,7 @@
 
 Mine::Mine() : GameObject()
 {
+	this->m_CircleCollider;
 }
 
 Mine::Mine(const Mine& other)
@@ -26,7 +27,18 @@ bool Mine::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	GameObject::SetSphereCollider(GameObject::SphereColliderType{ 8.0f, POINT{ 8, 8 } });
+	this->m_Collider = new CircleCollider();
+	if (!this->m_Collider)
+	{
+		return false;
+	}
+
+	this->m_CircleCollider = dynamic_cast<CircleCollider*>(this->m_Collider);
+	result = this->m_CircleCollider->Initialize(device, hwnd, screen, POINT{ 8, 8 }, 8.0f);
+	if (!result)
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -38,4 +50,30 @@ void Mine::Frame(const InputHandler::ControlsType& controls)
 	{
 		GameObject::Move();
 	}
+
+	this->m_CircleCollider->Frame(GameObject::GetPosition());
+}
+
+void Mine::Shutdown()
+{
+	GameObject::Shutdown();
+}
+
+bool Mine::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
+{
+	bool result;
+
+	result = GameObject::Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = this->m_CircleCollider->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
 }

@@ -26,10 +26,9 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
-	void CheckCollisions();
-
 private:
-	bool IsColliding(GameObject* gO1, GameObject* gO2);
+	void CheckCollisions();
+	bool AreCircleCollidersColliding(GameObject* gO1, GameObject* gO2);
 
 private:
 	Fighter* m_Fighter;

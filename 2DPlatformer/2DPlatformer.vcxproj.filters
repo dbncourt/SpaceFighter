@@ -102,6 +102,12 @@
     <ClInclude Include="MineManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Direct3D.cpp">
@@ -173,12 +179,27 @@
     <ClCompile Include="MineManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColorShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturePixelShader.hlsl">
       <Filter>Resource Files\Shader\Pixel</Filter>
     </FxCompile>
     <FxCompile Include="TextureVertexShader.hlsl">
+      <Filter>Resource Files\Shader\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorPixelShader.hlsl">
+      <Filter>Resource Files\Shader\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorVertexShader.hlsl">
       <Filter>Resource Files\Shader\Vertex</Filter>
     </FxCompile>
   </ItemGroup>
@@ -201,5 +222,19 @@
     <Image Include="Mine.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompiledShaders\TexturePixelShader.cso">
+      <Filter>Resource Files\CompiledShaders</Filter>
+    </None>
+    <None Include="CompiledShaders\TextureVertexShader.cso">
+      <Filter>Resource Files\CompiledShaders</Filter>
+    </None>
+    <None Include="CompiledShaders\ColorPixelShader.cso">
+      <Filter>Resource Files\CompiledShaders</Filter>
+    </None>
+    <None Include="CompiledShaders\ColorVertexShader.cso">
+      <Filter>Resource Files\CompiledShaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

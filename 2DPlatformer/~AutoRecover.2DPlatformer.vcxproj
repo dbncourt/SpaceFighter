@@ -15,6 +15,8 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="ColorShader.h" />
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="FighterFlame.h" />
@@ -39,6 +41,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="FighterFlame.cpp" />
@@ -51,6 +55,7 @@
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="MineManager.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarManager.cpp" />
@@ -60,6 +65,14 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="ColorPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="ColorVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="TexturePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -80,6 +93,10 @@
     <Image Include="Flame.dds" />
     <Image Include="Mine.dds" />
     <Image Include="Numbers.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompiledShaders\TexturePixelShader.cso" />
+    <None Include="CompiledShaders\TextureVertexShader.cso" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{985D902A-C2AF-48A6-9340-D34FD390582B}</ProjectGuid>

@@ -8,6 +8,7 @@
 // INCLUDES //
 //////////////
 #include <d3d11.h>
+#include <dxgi.h>
 #include <d3dx10math.h>
 
 /////////////
@@ -74,7 +75,6 @@ private:
 	Texture* m_Texture;
 	DimensionType m_screen;
 	DimensionType m_bitmap;
-	POINT m_previousPosition;
 };
 
 #endif

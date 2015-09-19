@@ -21,6 +21,7 @@
 #include "Direct3D.h"
 #include "Camera.h"
 #include "Game.h"
+#include "CircleCollider.h"
 
 /////////////
 // GLOBALS //

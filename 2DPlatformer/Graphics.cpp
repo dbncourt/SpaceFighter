@@ -51,14 +51,14 @@ bool Graphics::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	// Set the initial position of the camera
 	this->m_Camera->SetPosition(D3DXVECTOR3(0.0f, 0.0f, -10.0f));
 
-	// Create the Fighter Object
+	// Create the Game Object
 	this->m_Game = new Game();
 	if (!this->m_Game)
 	{
 		return false;
 	}
 
-	// Initialize the Fighter Object
+	// Initialize the Game Object
 	result = this->m_Game->Initialize(this->m_Direct3D->GetDevice(), hwnd, Bitmap::DimensionType{ screenWidth, screenHeight });
 	if (!result)
 	{

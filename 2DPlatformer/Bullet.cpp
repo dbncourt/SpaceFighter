@@ -22,7 +22,7 @@ bool Bullet::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType s
 		return false;
 	}
 
-	GameObject::SetSphereCollider(GameObject::SphereColliderType{ 10.0f, POINT{ 10, 2 } });
+	//GameObject::SetSphereCollider(GameObject::SphereColliderType{ 5.0f, POINT{ 10, 2 } });
 
 	return true;
 }

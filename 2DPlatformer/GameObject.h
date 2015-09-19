@@ -10,16 +10,10 @@
 #include "Sprite.h"
 #include "InputHandler.h"
 #include "Timer.h"
+#include "Collider.h"
 
 class GameObject
 {
-public:
-	struct SphereColliderType
-	{
-		float radius;
-		POINT center;
-	};
-
 public:
 	GameObject();
 	GameObject(const GameObject& other);
@@ -56,18 +50,14 @@ public:
 	HWND GetHWND();
 
 	Sprite* GetSprite();
+	virtual Collider* GetCollider();
 
-	void SetSphereCollider(SphereColliderType sphereCollder);
-	SphereColliderType GetSphereCollider();
-
-private:
-	ID3D11Device* m_device;
-	HWND m_hwnd;
+protected:
 	Sprite* m_Sprite;
 	Timer* m_Timer;
 	POINT m_position;
 	D3DXVECTOR2 m_velocity;
-	SphereColliderType m_SphereCollider;
+	Collider* m_Collider;
 	bool m_active;
 	float m_movementDelay;
 	float m_animationDelay;

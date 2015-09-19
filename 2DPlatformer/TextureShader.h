@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename: TextureShader.h
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef _TEXTURESHADER_H_
-#define _TEXTURESHADER_H_
+#ifndef _TEXTURE_SHADER_H_
+#define _TEXTURE_SHADER_H_
 
 //////////////
 // INCLUDES //
 //////////////
 #include "Shader.h"
 
-class TextureShader : Shader
+class TextureShader : public Shader
 {
 public:
 	TextureShader();

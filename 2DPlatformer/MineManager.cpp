@@ -52,11 +52,10 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 		mine->SetPosition(POINT{
 			(rand() % (screen.width / 2)) + screen.width / 2,
 			rand() % screen.height
-			
 		});
 
 		mine->SetVelocity(D3DXVECTOR2(
-			-(1 + rand() % 10),
+			-1,
 			0
 			));
 
@@ -113,8 +112,8 @@ void MineManager::ValidateMinesBounds()
 		if (mine->GetPosition().x < 0)
 		{
 			mine->SetPosition(POINT{
-				this->m_screenDimensions.width,
-				rand() % this->m_screenDimensions.height
+				this->m_screenDimensions.width + 10,
+				300
 			});
 		}
 	}
@@ -123,4 +122,12 @@ void MineManager::ValidateMinesBounds()
 std::list<GameObject*> MineManager::GetList()
 {
 	return this->m_Mines;
+}
+
+void MineManager::NotifyCollision(GameObject** mine)
+{
+	(*mine)->SetPosition(POINT{
+		this->m_screenDimensions.width + 10,
+		300
+	});
 }

@@ -136,3 +136,8 @@ std::list<GameObject*> BulletManager::GetList()
 {
 	return this->m_Bullets;
 }
+
+std::list<GameObject*>::iterator BulletManager::NotifyCollision(std::list<GameObject*>::iterator it)
+{
+	return this->m_Bullets.erase(it);
+}

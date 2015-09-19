@@ -28,6 +28,7 @@ public:
 	void Frame(const InputHandler::ControlsType& controls);
 
 	std::list<GameObject*> GetList();
+	void NotifyCollision(GameObject** mine);
 
 private:
 	void ValidateMinesBounds();
