@@ -37,5 +37,7 @@ private:
 	Mine* m_Mine;
 	std::list<GameObject*> m_Mines;
 	Bitmap::DimensionType m_screenDimensions;
+
+	const bool DRAW_COLLIDER = false;
 };
 #endif

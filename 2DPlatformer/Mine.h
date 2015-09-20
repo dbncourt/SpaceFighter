@@ -17,8 +17,7 @@ public:
 	Mine(const Mine& other);
 	~Mine();
 
-	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen);
-	virtual void Shutdown() override;
+	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider) override;
 	virtual bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix) override;
 
 	virtual void Frame(const InputHandler::ControlsType& controls) override;

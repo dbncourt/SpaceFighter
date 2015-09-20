@@ -28,7 +28,7 @@ bool StarManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 		return false;
 	}
 
-	result = this->m_Star->Initialize(device, hwnd, screen);
+	result = this->m_Star->Initialize(device, hwnd, screen, false);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the StarManager GameObject.", L"Error", MB_OK);
@@ -43,7 +43,7 @@ bool StarManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 			return false;
 		}
 
-		result = star->Initialize(device, hwnd, screen);
+		result = star->Initialize(device, hwnd, screen, false);
 		if (!result)
 		{
 			return false;

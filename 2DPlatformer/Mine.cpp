@@ -5,7 +5,7 @@
 
 Mine::Mine() : GameObject()
 {
-	this->m_CircleCollider;
+	this->m_CircleCollider = nullptr;
 }
 
 Mine::Mine(const Mine& other)
@@ -16,9 +16,11 @@ Mine::~Mine()
 {
 }
 
-bool Mine::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen)
+bool Mine::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider)
 {
 	bool result;
+
+	this->m_drawCollider = drawCollider;
 
 	result = GameObject::Initialize(device, hwnd, screen, L"Mine.dds", Bitmap::DimensionType{ 16, 16 }, Bitmap::DimensionType{ 16, 16 }, 1, 0, true);;
 	if (!result)
@@ -49,14 +51,10 @@ void Mine::Frame(const InputHandler::ControlsType& controls)
 	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
 	{
 		GameObject::Move();
+		GameObject::ResetMovementDelayTime();
 	}
 
 	this->m_CircleCollider->Frame(GameObject::GetPosition());
-}
-
-void Mine::Shutdown()
-{
-	GameObject::Shutdown();
 }
 
 bool Mine::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
@@ -69,10 +67,13 @@ bool Mine::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 		return false;
 	}
 
-	result = this->m_CircleCollider->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
+	if (this->m_drawCollider)
 	{
-		return false;
+		result = this->m_CircleCollider->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 	return true;

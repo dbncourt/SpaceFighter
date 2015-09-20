@@ -15,7 +15,7 @@ Star::~Star()
 {
 }
 
-bool Star::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen)
+bool Star::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider)
 {
 	bool result;
 
@@ -35,5 +35,6 @@ void Star::Frame(const InputHandler::ControlsType& controls)
 	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
 	{
 		GameObject::Move();
+		GameObject::ResetMovementDelayTime();
 	}
 }

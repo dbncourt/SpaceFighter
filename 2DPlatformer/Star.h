@@ -16,7 +16,7 @@ public:
 	Star(const Star& other);
 	~Star();
 
-	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen);
+	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider) override;
 	virtual void Frame(const InputHandler::ControlsType& controls) override;
 };
 #endif

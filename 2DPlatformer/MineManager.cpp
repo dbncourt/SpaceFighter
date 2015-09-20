@@ -28,7 +28,7 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 		return false;
 	}
 
-	result = this->m_Mine->Initialize(device, hwnd, screen);
+	result = this->m_Mine->Initialize(device, hwnd, screen, DRAW_COLLIDER);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the MineManager GameObject.", L"Error", MB_OK);
@@ -43,7 +43,7 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 			return false;
 		}
 
-		result = mine->Initialize(device, hwnd, screen);
+		result = mine->Initialize(device, hwnd, screen, DRAW_COLLIDER);
 		if (!result)
 		{
 			return false;
@@ -51,11 +51,11 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 
 		mine->SetPosition(POINT{
 			(rand() % (screen.width / 2)) + screen.width / 2,
-			rand() % screen.height
+			rand() % (screen.height - 20)
 		});
 
 		mine->SetVelocity(D3DXVECTOR2(
-			-1,
+			-(1 + rand() % 10),
 			0
 			));
 
@@ -113,7 +113,7 @@ void MineManager::ValidateMinesBounds()
 		{
 			mine->SetPosition(POINT{
 				this->m_screenDimensions.width + 10,
-				300
+				rand() % this->m_screenDimensions.height
 			});
 		}
 	}
@@ -128,6 +128,6 @@ void MineManager::NotifyCollision(GameObject** mine)
 {
 	(*mine)->SetPosition(POINT{
 		this->m_screenDimensions.width + 10,
-		300
+		rand() % this->m_screenDimensions.height
 	});
 }

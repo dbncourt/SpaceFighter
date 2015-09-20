@@ -29,8 +29,9 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
-	std::list<GameObject*> GetList();
-	std::list<GameObject*>::iterator NotifyCollision(std::list<GameObject*>::iterator it);
+	std::list<GameObject*>::iterator GetListBegin();
+	std::list<GameObject*>::iterator GetListEnd();
+	std::list<GameObject*>::iterator NotifyCollision(std::list<GameObject*>::iterator iterator);
 
 private:
 	void GenerateTriBullet();
@@ -39,12 +40,13 @@ private:
 private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
-	
+
 	Bullet* m_Bullet;
 	std::list<GameObject*> m_Bullets;
 	Bitmap::DimensionType m_ScreenDimensions;
 	POINT m_relativePosition;
 
-	const float SHOOT_DELAY = 80.0f;
+	const float SHOOT_DELAY = 100.0f;
+	const bool DRAW_COLLIDER = false;
 };
 #endif

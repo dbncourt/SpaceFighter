@@ -23,7 +23,7 @@ public:
 	Fighter(const Fighter& other);
 	~Fighter();
 
-	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen) override;
+	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider) override;
 	virtual void Shutdown() override;
 	virtual bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix) override;
 

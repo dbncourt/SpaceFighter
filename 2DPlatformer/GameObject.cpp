@@ -138,6 +138,11 @@ float GameObject::GetAnimationDelayTime()
 	return this->m_animationDelay;
 }
 
+void GameObject::ResetAnimationDelayTime()
+{
+	this->m_animationDelay = 0.0f;
+}
+
 void GameObject::ResetMovementDelayTime()
 {
 	this->m_movementDelay = 0.0f;
@@ -146,11 +151,6 @@ void GameObject::ResetMovementDelayTime()
 float GameObject::GetMovementDelayTime()
 {
 	return this->m_movementDelay;
-}
-
-void GameObject::ResetAnimationDelayTime()
-{
-	this->m_animationDelay = 0.0f;
 }
 
 Collider* GameObject::GetCollider()

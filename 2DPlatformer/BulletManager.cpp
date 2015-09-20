@@ -31,7 +31,7 @@ bool BulletManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimensio
 		return false;
 	}
 	
-	result = this->m_Bullet->Initialize(device, hwnd, screen);
+	result = this->m_Bullet->Initialize(device, hwnd, screen, DRAW_COLLIDER);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the BulletManager GameObject.", L"Error", MB_OK);
@@ -94,19 +94,19 @@ void BulletManager::GenerateTriBullet()
 	Bullet* bullet;
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, 2));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, 0));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, -2));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
@@ -132,12 +132,17 @@ void BulletManager::SetRelativePosition(POINT relativePosition)
 	this->m_relativePosition = relativePosition;
 }
 
-std::list<GameObject*> BulletManager::GetList()
+std::list<GameObject*>::iterator BulletManager::GetListBegin()
 {
-	return this->m_Bullets;
+	return this->m_Bullets.begin();
 }
 
-std::list<GameObject*>::iterator BulletManager::NotifyCollision(std::list<GameObject*>::iterator it)
+std::list<GameObject*>::iterator BulletManager::GetListEnd()
 {
-	return this->m_Bullets.erase(it);
+	return this->m_Bullets.end();
+}
+
+std::list<GameObject*>::iterator BulletManager::NotifyCollision(std::list<GameObject*>::iterator iterator)
+{
+	return this->m_Bullets.erase(iterator);
 }

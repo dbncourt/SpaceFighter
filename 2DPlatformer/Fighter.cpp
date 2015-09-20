@@ -17,7 +17,7 @@ Fighter::~Fighter()
 {
 }
 
-bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen)
+bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider)
 {
 	bool result;
 

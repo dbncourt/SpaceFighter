@@ -19,7 +19,7 @@ public:
 	GameObject(const GameObject& other);
 	~GameObject();
 
-	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen) = 0;
+	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider) = 0;
 	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* spriteFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, int numberOfFramesAcross, int initialFrame, bool useTimer);
 	virtual void Shutdown();
 	virtual bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix);
@@ -61,8 +61,9 @@ protected:
 	bool m_active;
 	float m_movementDelay;
 	float m_animationDelay;
+	bool m_drawCollider;
 
 protected:
-	const float MOVEMENT_DELAY = 16.0f;
+	const float MOVEMENT_DELAY = 15.0f;
 };
 #endif

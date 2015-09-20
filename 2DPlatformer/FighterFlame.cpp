@@ -15,7 +15,7 @@ FighterFlame::~FighterFlame()
 {
 }
 
-bool FighterFlame::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen)
+bool FighterFlame::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider)
 {
 	bool result;
 
