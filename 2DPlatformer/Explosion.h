@@ -1,37 +1,29 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Filename: Fighter.h
+// Filename: Explosion.h
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef _FIGHTER_H_
-#define _FIGHTER_H_
-
-//////////////
-// INCLUDES //
-//////////////
-#include <list>
+#ifndef _EXPLOSION_H_
+#define _EXPLOSION_H_
 
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "GameObject.h"
-#include "Bullet.h"
-#include "FighterFlame.h"
 
-class Fighter : public GameObject
+class Explosion : public GameObject
 {
 public:
-	Fighter();
-	Fighter(const Fighter& other);
-	~Fighter();
+	Explosion();
+	Explosion(const Explosion& other);
+	~Explosion();
 
 	virtual bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, bool drawCollider) override;
 
 	virtual void Frame(const InputHandler::ControlsType& controls) override;
 
-private:
-	int m_life;
-	int m_lives;
+	bool IsAnimating();
 
-	const int SHIP_SPEED = 3;
-	const float ANIMATION_DELAY = 20.0f;
+private:
+	bool m_isAnimating;
+	const float ANIMATION_DELAY = 32.0f;
 };
 #endif

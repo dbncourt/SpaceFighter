@@ -31,27 +31,34 @@ bool FighterFlame::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimension
 
 bool FighterFlame::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	return GameObject::GetSprite()->Render(
-		deviceContext,
-		POINT{ GameObject::GetPosition().x - 26, GameObject::GetPosition().y + 47},
-		wordMatrix, viewMatrix, projectionMatrix);
+	if (GameObject::GetActiveStatus())
+	{
+		return GameObject::GetSprite()->Render(
+			deviceContext,
+			POINT{ GameObject::GetPosition().x - 26, GameObject::GetPosition().y + 47 },
+			wordMatrix, viewMatrix, projectionMatrix);
+	}
+	return true;
 }
 
 
 void FighterFlame::Frame(const InputHandler::ControlsType& controls)
 {
-	GameObject::Frame(controls);
+	if (GameObject::GetActiveStatus())
+	{
+		GameObject::Frame(controls);
 
-	if (controls.right)
-	{
-		if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+		if (controls.right)
 		{
-			GameObject::GetSprite()->IncrementFrame();
-			GameObject::ResetAnimationDelayTime();
+			if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+			{
+				GameObject::GetSprite()->IncrementFrame();
+				GameObject::ResetAnimationDelayTime();
+			}
 		}
-	}
-	else
-	{
-		GameObject::GetSprite()->ResetFrame();
+		else
+		{
+			GameObject::GetSprite()->ResetFrame();
+		}
 	}
 }

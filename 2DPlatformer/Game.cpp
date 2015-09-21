@@ -24,6 +24,9 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 {
 	bool result;
 
+	////////////////////////////////////////////////////////////////////////////////
+	//									FIGHTER
+	////////////////////////////////////////////////////////////////////////////////
 	this->m_Fighter = new Fighter();
 	if (!this->m_Fighter)
 	{
@@ -36,7 +39,11 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the Fighter.", L"Error", MB_OK);
 		return false;
 	}
+	this->m_Fighter->SetActiveStatus(true);
 
+	////////////////////////////////////////////////////////////////////////////////
+	//								FIGHTER FLAME
+	////////////////////////////////////////////////////////////////////////////////
 	this->m_FighterFlame = new FighterFlame();
 	if (!this->m_FighterFlame)
 	{
@@ -49,7 +56,11 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the FighterFlame.", L"Error", MB_OK);
 		return false;
 	}
+	this->m_FighterFlame->SetActiveStatus(true);
 
+	////////////////////////////////////////////////////////////////////////////////
+	//								BULLET MANAGER
+	////////////////////////////////////////////////////////////////////////////////
 	this->m_Bullets = new BulletManager();
 	if (!this->m_Bullets)
 	{
@@ -62,7 +73,11 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the BulletManager.", L"Error", MB_OK);
 		return false;
 	}
+	this->m_Bullets->SetActiveStatus(true);
 
+	////////////////////////////////////////////////////////////////////////////////
+	//								STAR MANAGER
+	////////////////////////////////////////////////////////////////////////////////
 	this->m_Stars = new StarManager();
 	if (!this->m_Stars)
 	{
@@ -75,7 +90,11 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the StarManager.", L"Error", MB_OK);
 		return false;
 	}
+	this->m_Stars->SetActiveStatus(true);
 
+	////////////////////////////////////////////////////////////////////////////////
+	//									MINE MANAGER
+	////////////////////////////////////////////////////////////////////////////////
 	this->m_Mines = new MineManager();
 	if (!this->m_Mines)
 	{
@@ -88,6 +107,7 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		MessageBox(hwnd, L"Could not initialize the MineManager.", L"Error", MB_OK);
 		return false;
 	}
+	this->m_Mines->SetActiveStatus(true);
 }
 
 void Game::Shutdown()

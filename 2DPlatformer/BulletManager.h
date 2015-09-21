@@ -29,6 +29,9 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
+	void SetActiveStatus(bool status);
+	bool GetActiveStatus();
+
 	std::list<GameObject*>::iterator GetListBegin();
 	std::list<GameObject*>::iterator GetListEnd();
 	std::list<GameObject*>::iterator NotifyCollision(std::list<GameObject*>::iterator iterator);

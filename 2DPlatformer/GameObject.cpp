@@ -23,6 +23,7 @@ GameObject::~GameObject()
 bool GameObject::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, WCHAR* spriteFileName, Bitmap::DimensionType bitmap, Bitmap::DimensionType sprite, int numberOfFramesAcross, int initialFrame, bool useTimer)
 {
 	bool result;
+	this->m_active = true;
 
 	this->m_Sprite = new Sprite();
 	if (!this->m_Sprite)
@@ -62,7 +63,22 @@ void GameObject::Shutdown()
 
 bool GameObject::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	return this->m_Sprite->Render(deviceContext, this->m_position, wordMatrix, viewMatrix, projectionMatrix);
+	if (this->m_active)
+	{
+		return this->m_Sprite->Render(deviceContext, this->m_position, wordMatrix, viewMatrix, projectionMatrix);
+	}
+	return true;
+}
+
+void GameObject::Frame(const InputHandler::ControlsType& controls)
+{
+	if (this->m_Timer && this->m_active)
+	{
+		this->m_Timer->Frame();
+
+		this->m_movementDelay += this->m_Timer->GetTime();
+		this->m_animationDelay += this->m_Timer->GetTime();
+	}
 }
 
 void GameObject::Move()
@@ -75,17 +91,6 @@ void GameObject::Move(const D3DXVECTOR2 vector)
 {
 	this->m_position.x += vector.x;
 	this->m_position.y += vector.y;
-}
-
-void GameObject::Frame(const InputHandler::ControlsType& controls)
-{
-	if (this->m_Timer)
-	{
-		this->m_Timer->Frame();
-
-		this->m_movementDelay += this->m_Timer->GetTime();
-		this->m_animationDelay += this->m_Timer->GetTime();
-	}
 }
 
 void GameObject::SortFrameArray(const int* framesOrder, int size)
@@ -118,12 +123,12 @@ const D3DXVECTOR2 GameObject::GetVelocity()
 	return this->m_velocity;
 }
 
-void GameObject::SetStatus(const bool status)
+void GameObject::SetActiveStatus(const bool status)
 {
 	this->m_active = status;
 }
 
-bool GameObject::GetStatus()
+bool GameObject::GetActiveStatus()
 {
 	return this->m_active;
 }

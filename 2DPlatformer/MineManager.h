@@ -13,6 +13,7 @@
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "Mine.h"
+#include "ExplosionManager.h"
 
 class MineManager
 {
@@ -27,6 +28,9 @@ public:
 
 	void Frame(const InputHandler::ControlsType& controls);
 
+	void SetActiveStatus(bool status);
+	bool GetActiveStatus();
+
 	std::list<GameObject*> GetList();
 	void NotifyCollision(GameObject** mine);
 
@@ -36,6 +40,8 @@ private:
 private:
 	Mine* m_Mine;
 	std::list<GameObject*> m_Mines;
+
+	ExplosionManager* m_ExplosionManager;
 	Bitmap::DimensionType m_screenDimensions;
 
 	const bool DRAW_COLLIDER = false;

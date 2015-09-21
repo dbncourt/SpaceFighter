@@ -5,6 +5,7 @@
 
 BulletManager::BulletManager()
 {
+	this->m_Bullet = nullptr;
 	this->m_device = nullptr;
 	this->m_hwnd = nullptr;
 }
@@ -54,14 +55,17 @@ void BulletManager::Shutdown()
 
 bool BulletManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	bool result;
-
-	for (GameObject* bullet : this->m_Bullets)
+	if (this->m_Bullet->GetActiveStatus())
 	{
-		result = bullet->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-		if (!result)
+		bool result;
+
+		for (GameObject* bullet : this->m_Bullets)
 		{
-			return false;
+			result = bullet->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+			if (!result)
+			{
+				return false;
+			}
 		}
 	}
 
@@ -70,23 +74,26 @@ bool BulletManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMa
 
 void BulletManager::Frame(const InputHandler::ControlsType& controls)
 {
-	this->m_Bullet->Frame(controls);
-
-	for (GameObject* bullet : this->m_Bullets)
+	if (this->m_Bullet->GetActiveStatus())
 	{
-		dynamic_cast<Bullet*>(bullet)->Frame(controls);
-	}
+		this->m_Bullet->Frame(controls);
 
-	if (controls.spaceBar)
-	{
-		if (this->m_Bullet->GetAnimationDelayTime() > SHOOT_DELAY)
+		for (GameObject* bullet : this->m_Bullets)
 		{
-			BulletManager::GenerateTriBullet();
-			this->m_Bullet->ResetAnimationDelayTime();
+			dynamic_cast<Bullet*>(bullet)->Frame(controls);
 		}
-	}
 
-	BulletManager::ValidateBulletsBounds();
+		if (controls.spaceBar)
+		{
+			if (this->m_Bullet->GetAnimationDelayTime() > SHOOT_DELAY)
+			{
+				BulletManager::GenerateTriBullet();
+				this->m_Bullet->ResetAnimationDelayTime();
+			}
+		}
+
+		BulletManager::ValidateBulletsBounds();
+	}
 }
 
 void BulletManager::GenerateTriBullet()
@@ -145,4 +152,14 @@ std::list<GameObject*>::iterator BulletManager::GetListEnd()
 std::list<GameObject*>::iterator BulletManager::NotifyCollision(std::list<GameObject*>::iterator iterator)
 {
 	return this->m_Bullets.erase(iterator);
+}
+
+void BulletManager::SetActiveStatus(bool status)
+{
+	this->m_Bullet->SetActiveStatus(status);
+}
+
+bool BulletManager::GetActiveStatus()
+{
+	return this->m_Bullet->GetActiveStatus();
 }

@@ -37,8 +37,8 @@ public:
 	void SetVelocity(const D3DXVECTOR2& velocity);
 	const D3DXVECTOR2 GetVelocity();
 
-	void SetStatus(const bool status);
-	bool GetStatus();
+	void SetActiveStatus(const bool status);
+	bool GetActiveStatus();
 
 	float GetMovementDelayTime();
 	void ResetMovementDelayTime();
@@ -64,6 +64,6 @@ protected:
 	bool m_drawCollider;
 
 protected:
-	const float MOVEMENT_DELAY = 15.0f;
+	const float MOVEMENT_DELAY = 16.0f;
 };
 #endif

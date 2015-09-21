@@ -81,30 +81,35 @@ void StarManager::Shutdown()
 
 bool StarManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	bool result;
-
-	for (Star* star : this->m_Stars)
+	if (this->m_Star->GetActiveStatus())
 	{
-		result = star->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-		if (!result)
+		bool result;
+
+		for (Star* star : this->m_Stars)
 		{
-			return false;
+			result = star->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+			if (!result)
+			{
+				return false;
+			}
 		}
 	}
-
 	return true;
 }
 
 void StarManager::Frame(const InputHandler::ControlsType& controls)
 {
-	this->m_Star->Frame(controls);
-
-	for (Star* star : this->m_Stars)
+	if (this->m_Star->GetActiveStatus())
 	{
-		star->Frame(controls);
-	}
+		this->m_Star->Frame(controls);
 
-	StarManager::ValidateStarsBounds();
+		for (Star* star : this->m_Stars)
+		{
+			star->Frame(controls);
+		}
+
+		StarManager::ValidateStarsBounds();
+	}
 }
 
 void StarManager::ValidateStarsBounds()
@@ -120,4 +125,14 @@ void StarManager::ValidateStarsBounds()
 			});
 		}
 	}
+}
+
+void StarManager::SetActiveStatus(bool status)
+{
+	this->m_Star->SetActiveStatus(status);
+}
+
+bool StarManager::GetActiveStatus()
+{
+	return this->m_Star->GetActiveStatus();
 }

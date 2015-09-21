@@ -18,6 +18,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColorShader.h" />
     <ClInclude Include="Direct3D.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosionManager.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="FighterFlame.h" />
     <ClInclude Include="Game.h" />
@@ -44,6 +46,8 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="Direct3D.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionManager.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="FighterFlame.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -68,10 +72,12 @@
     <FxCompile Include="ColorPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\..\2DPlatformer\CompiledShaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="ColorVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)\..\2DPlatformer\CompiledShaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="TexturePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -95,6 +101,8 @@
     <Image Include="Numbers.dds" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CompiledShaders\ColorPixelShader.cso" />
+    <None Include="CompiledShaders\ColorVertexShader.cso" />
     <None Include="CompiledShaders\TexturePixelShader.cso" />
     <None Include="CompiledShaders\TextureVertexShader.cso" />
   </ItemGroup>

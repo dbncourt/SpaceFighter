@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Filename: StarManager.h
+// Filename: ExplosionManager.h
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef _STAR_MANAGER_H_
-#define _STAR_MANAGER_H_
+#ifndef _EXPLOSION_MANAGER_H_
+#define _EXPLOSION_MANAGER_H_
 
 //////////////
 // INCLUDES //
@@ -12,30 +12,32 @@
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
-#include "Star.h"
+#include "Explosion.h"
 
-class StarManager
+class ExplosionManager
 {
 public:
-	StarManager();
-	StarManager(const StarManager& other);
-	~StarManager();
+	ExplosionManager();
+	ExplosionManager(const ExplosionManager& other);
+	~ExplosionManager();
 
-	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, int maxAmountOfStars);
+	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen);
 	void Shutdown();
 	bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix);
 
 	void Frame(const InputHandler::ControlsType& controls);
 
+	void AddExplosion(POINT position);
+
 	void SetActiveStatus(bool status);
 	bool GetActiveStatus();
 
 private:
-	void ValidateStarsBounds();
+	ID3D11Device* m_device;
+	HWND m_hwnd;
 
-private:
-	Star* m_Star;
-	std::list<Star*> m_Stars;
-	Bitmap::DimensionType m_screenDimensions;
+	Explosion* m_Explosion;
+	std::list<GameObject*> m_Explosions;
+	Bitmap::DimensionType m_ScreenDimensions;
 };
 #endif

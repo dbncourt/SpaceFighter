@@ -39,94 +39,79 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 	return true;
 }
 
-bool Fighter::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
-{
-	bool result;
-	
-	result = GameObject::Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void Fighter::Shutdown()
-{
-	GameObject::Shutdown();
-}
-
 void Fighter::Frame(const InputHandler::ControlsType& controls)
 {
-	GameObject::Frame(controls);
-
-	if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
+	if (GameObject::GetActiveStatus())
 	{
-		if (controls.up ^ controls.down)
-		{
-			if (controls.up)
-			{
-				if (GameObject::GetPosition().y > 0)
-				{
-					GameObject::Move(D3DXVECTOR2(0, -SHIP_SPEED));
-				}
+		GameObject::Frame(controls);
 
-				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
-				{
-					GameObject::GetSprite()->IncrementFrame();
-					GameObject::ResetAnimationDelayTime();
-				}
-			}
-			else if (controls.down)
-			{
-				if (GameObject::GetPosition().y < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().height - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().height))
-				{
-					GameObject::Move(D3DXVECTOR2(0, SHIP_SPEED));
-				}
-				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
-				{
-					GameObject::GetSprite()->DecrementFrame();
-					GameObject::ResetAnimationDelayTime();
-				}
-			}
-		}
-		else
+		if (GameObject::GetMovementDelayTime() > MOVEMENT_DELAY)
 		{
-			if (GameObject::GetSprite()->GetCurrentFrame() > (GameObject::GetSprite()->GetAmountOfFrames() / 2))
+			if (controls.up ^ controls.down)
 			{
-				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+				if (controls.up)
 				{
-					GameObject::GetSprite()->DecrementFrame();
-					GameObject::ResetAnimationDelayTime();
+					if (GameObject::GetPosition().y > 0)
+					{
+						GameObject::Move(D3DXVECTOR2(0, -SHIP_SPEED));
+					}
+
+					if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+					{
+						GameObject::GetSprite()->IncrementFrame();
+						GameObject::ResetAnimationDelayTime();
+					}
+				}
+				else if (controls.down)
+				{
+					if (GameObject::GetPosition().y < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().height - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().height))
+					{
+						GameObject::Move(D3DXVECTOR2(0, SHIP_SPEED));
+					}
+					if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+					{
+						GameObject::GetSprite()->DecrementFrame();
+						GameObject::ResetAnimationDelayTime();
+					}
 				}
 			}
-			if (GameObject::GetSprite()->GetCurrentFrame() < (GameObject::GetSprite()->GetAmountOfFrames() / 2))
+			else
 			{
-				if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+				if (GameObject::GetSprite()->GetCurrentFrame() > (GameObject::GetSprite()->GetAmountOfFrames() / 2))
 				{
-					GameObject::GetSprite()->IncrementFrame();
-					GameObject::ResetAnimationDelayTime();
+					if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+					{
+						GameObject::GetSprite()->DecrementFrame();
+						GameObject::ResetAnimationDelayTime();
+					}
+				}
+				if (GameObject::GetSprite()->GetCurrentFrame() < (GameObject::GetSprite()->GetAmountOfFrames() / 2))
+				{
+					if (GameObject::GetAnimationDelayTime() > ANIMATION_DELAY)
+					{
+						GameObject::GetSprite()->IncrementFrame();
+						GameObject::ResetAnimationDelayTime();
+					}
 				}
 			}
+			if (controls.right ^ controls.left)
+			{
+				if (controls.right)
+				{
+					if (GameObject::GetPosition().x < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().width))
+					{
+						GameObject::Move(D3DXVECTOR2(SHIP_SPEED, 0));
+					}
+				}
+				else if (controls.left)
+				{
+					if (GameObject::GetPosition().x > 0)
+					{
+						GameObject::Move(D3DXVECTOR2(-SHIP_SPEED, 0));
+					}
+				}
+			}
+			GameObject::ResetMovementDelayTime();
 		}
-		if (controls.right ^ controls.left)
-		{
-			if (controls.right)
-			{
-				if (GameObject::GetPosition().x < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().width))
-				{
-					GameObject::Move(D3DXVECTOR2(SHIP_SPEED, 0));
-				}
-			}
-			else if (controls.left)
-			{
-				if (GameObject::GetPosition().x > 0)
-				{
-					GameObject::Move(D3DXVECTOR2(-SHIP_SPEED, 0));
-				}
-			}
-		}
-		GameObject::ResetMovementDelayTime();
 	}
 }

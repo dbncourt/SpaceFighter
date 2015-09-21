@@ -59,20 +59,23 @@ void Mine::Frame(const InputHandler::ControlsType& controls)
 
 bool Mine::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	bool result;
-
-	result = GameObject::Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
-	if (!result)
+	if (GameObject::GetActiveStatus())
 	{
-		return false;
-	}
+		bool result;
 
-	if (this->m_drawCollider)
-	{
-		result = this->m_CircleCollider->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+		result = GameObject::Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 		if (!result)
 		{
 			return false;
+		}
+
+		if (this->m_drawCollider)
+		{
+			result = this->m_CircleCollider->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+			if (!result)
+			{
+				return false;
+			}
 		}
 	}
 

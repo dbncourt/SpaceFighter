@@ -6,6 +6,7 @@
 MineManager::MineManager()
 {
 	this->m_Mine = nullptr;
+	this->m_ExplosionManager = nullptr;
 }
 
 MineManager::MineManager(const MineManager& other)
@@ -62,6 +63,20 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 		this->m_Mines.push_back(mine);
 	}
 
+	this->m_ExplosionManager = new ExplosionManager();
+	if (!this->m_ExplosionManager)
+	{
+		return false;
+	}
+
+	result = this->m_ExplosionManager->Initialize(device, hwnd, screen);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the ExplosionManager GameObject.", L"Error", MB_OK);
+		return false;
+	}
+	this->m_ExplosionManager->SetActiveStatus(true);
+
 	return true;
 }
 
@@ -73,36 +88,50 @@ void MineManager::Shutdown()
 	{
 		SAFE_SHUTDOWN(mine);
 	}
-
 	this->m_Mines.clear();
+
+	SAFE_SHUTDOWN(this->m_ExplosionManager);
 }
 
 bool MineManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	bool result;
-
-	for (GameObject* mine : this->m_Mines)
+	if (this->m_Mine->GetActiveStatus())
 	{
-		result = mine->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
+		bool result;
+
+		for (GameObject* mine : this->m_Mines)
+		{
+			result = mine->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
+			if (!result)
+			{
+				return false;
+			}
+		}
+
+		result = this->m_ExplosionManager->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
 		if (!result)
 		{
 			return false;
 		}
 	}
-
 	return true;
 }
 
 void MineManager::Frame(const InputHandler::ControlsType& controls)
 {
-	this->m_Mine->Frame(controls);
-
-	for (GameObject* mine : this->m_Mines)
+	if (this->m_Mine->GetActiveStatus())
 	{
-		dynamic_cast<Mine*>(mine)->Frame(controls);
-	}
+		this->m_Mine->Frame(controls);
 
-	MineManager::ValidateMinesBounds();
+		for (GameObject* mine : this->m_Mines)
+		{
+			dynamic_cast<Mine*>(mine)->Frame(controls);
+		}
+
+		this->m_ExplosionManager->Frame(controls);
+
+		MineManager::ValidateMinesBounds();
+	}
 }
 
 void MineManager::ValidateMinesBounds()
@@ -126,8 +155,19 @@ std::list<GameObject*> MineManager::GetList()
 
 void MineManager::NotifyCollision(GameObject** mine)
 {
+	this->m_ExplosionManager->AddExplosion((*mine)->GetPosition());
 	(*mine)->SetPosition(POINT{
 		this->m_screenDimensions.width + 10,
 		rand() % this->m_screenDimensions.height
 	});
+}
+
+void MineManager::SetActiveStatus(bool status)
+{
+	this->m_Mine->SetActiveStatus(status);
+}
+
+bool MineManager::GetActiveStatus()
+{
+	return this->m_Mine->GetActiveStatus();
 }
