@@ -120,6 +120,21 @@
     <ClInclude Include="ExplosionManager.h">
       <Filter>Header Files\GameObjectManagers</Filter>
     </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthIndicator.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthManager.h">
+      <Filter>Header Files\GameObjectManagers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Direct3D.cpp">
@@ -204,6 +219,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExplosionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthIndicator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

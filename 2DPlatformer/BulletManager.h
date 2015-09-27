@@ -46,7 +46,7 @@ private:
 
 	Bullet* m_Bullet;
 	std::list<GameObject*> m_Bullets;
-	Bitmap::DimensionType m_ScreenDimensions;
+	Bitmap::DimensionType m_screenDimensions;
 	POINT m_relativePosition;
 
 	const float SHOOT_DELAY = 100.0f;

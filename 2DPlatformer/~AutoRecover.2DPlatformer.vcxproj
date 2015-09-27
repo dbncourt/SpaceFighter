@@ -15,6 +15,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColorShader.h" />
     <ClInclude Include="Direct3D.h" />
@@ -25,12 +26,16 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="HealthIndicator.h" />
+    <ClInclude Include="HealthManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="MineManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarManager.h" />
     <ClInclude Include="System.h" />
@@ -53,6 +58,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="HealthIndicator.cpp" />
+    <ClCompile Include="HealthManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -61,6 +69,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarManager.cpp" />
     <ClCompile Include="System.cpp" />

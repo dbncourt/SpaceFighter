@@ -22,7 +22,7 @@ public:
 	MineManager(const MineManager& other);
 	~MineManager();
 
-	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, int maxAmountOfMines);
+	bool Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, int maxAmountOfMines, bool drawColliders);
 	void Shutdown();
 	bool Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix);
 
@@ -31,19 +31,24 @@ public:
 	void SetActiveStatus(bool status);
 	bool GetActiveStatus();
 
-	std::list<GameObject*> GetList();
-	void NotifyCollision(GameObject** mine);
+	std::list<GameObject*>::iterator GetListBegin();
+	std::list<GameObject*>::iterator GetListEnd();
+	std::list<GameObject*>::iterator NotifyCollision(std::list<GameObject*>::iterator iterator);
 
 private:
 	void ValidateMinesBounds();
+	void AddMine();
 
 private:
+	ID3D11Device* m_device;
+	HWND m_hwnd;
+
 	Mine* m_Mine;
 	std::list<GameObject*> m_Mines;
-
 	ExplosionManager* m_ExplosionManager;
 	Bitmap::DimensionType m_screenDimensions;
 
-	const bool DRAW_COLLIDER = false;
+	int m_maxAmountOfMines;
+	bool m_drawCollider;
 };
 #endif

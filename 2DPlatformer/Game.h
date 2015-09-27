@@ -12,6 +12,7 @@
 #include "BulletManager.h"
 #include "StarManager.h"
 #include "MineManager.h"
+#include "HealthManager.h"
 
 class Game
 {
@@ -28,7 +29,8 @@ public:
 
 private:
 	void CheckCollisions();
-	bool AreCircleCollidersColliding(GameObject* gO1, GameObject* gO2);
+	bool CheckCircleCircleCollision(CircleCollider* gO1Collider, CircleCollider* gO2Collider);
+	bool CheckCircleRectangleCollision(BoxCollider* gO1Collider, CircleCollider* gO2Collider);
 
 private:
 	Fighter* m_Fighter;
@@ -36,5 +38,6 @@ private:
 	BulletManager* m_Bullets;
 	StarManager* m_Stars;
 	MineManager* m_Mines;
+	HealthManager* m_HealthManager;
 };
 #endif

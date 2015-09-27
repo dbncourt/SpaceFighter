@@ -24,7 +24,7 @@ bool BulletManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimensio
 
 	this->m_device = device;
 	this->m_hwnd = hwnd;
-	this->m_ScreenDimensions = screen;
+	this->m_screenDimensions = screen;
 
 	this->m_Bullet = new Bullet();
 	if (!this->m_Bullet)
@@ -101,19 +101,19 @@ void BulletManager::GenerateTriBullet()
 	Bullet* bullet;
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_screenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, 2));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_screenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, 0));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
 
 	bullet = new Bullet();
-	bullet->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, DRAW_COLLIDER);
+	bullet->Initialize(this->m_device, this->m_hwnd, this->m_screenDimensions, DRAW_COLLIDER);
 	bullet->SetVelocity(D3DXVECTOR2(20, -2));
 	bullet->SetPosition(POINT{ this->m_relativePosition.x + 138, this->m_relativePosition.y + 50 });
 	this->m_Bullets.push_back(bullet);
@@ -123,7 +123,7 @@ void BulletManager::ValidateBulletsBounds()
 {
 	for (std::list<GameObject*>::iterator it = this->m_Bullets.begin(); it != this->m_Bullets.end();)
 	{
-		if ((*it)->GetPosition().x > this->m_ScreenDimensions.width)
+		if ((*it)->GetPosition().x > this->m_screenDimensions.width)
 		{
 			it = this->m_Bullets.erase(it);
 		}

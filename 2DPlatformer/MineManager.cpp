@@ -5,8 +5,11 @@
 
 MineManager::MineManager()
 {
+	this->m_device = nullptr;
+	this->m_hwnd = nullptr;
 	this->m_Mine = nullptr;
 	this->m_ExplosionManager = nullptr;
+	this->m_maxAmountOfMines = 0;
 }
 
 MineManager::MineManager(const MineManager& other)
@@ -17,11 +20,15 @@ MineManager::~MineManager()
 {
 }
 
-bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, int maxAmountOfMines)
+bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen, int maxAmountOfMines, bool drawColliders)
 {
 	bool result;
 
+	this->m_device = device;
+	this->m_hwnd = hwnd;
 	this->m_screenDimensions = screen;
+	this->m_maxAmountOfMines = maxAmountOfMines;
+	this->m_drawCollider = drawColliders;
 
 	this->m_Mine = new Mine();
 	if (!this->m_Mine)
@@ -29,7 +36,7 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 		return false;
 	}
 
-	result = this->m_Mine->Initialize(device, hwnd, screen, DRAW_COLLIDER);
+	result = this->m_Mine->Initialize(device, hwnd, screen, this->m_drawCollider);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the MineManager GameObject.", L"Error", MB_OK);
@@ -38,29 +45,7 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 
 	for (int i = 0; i < maxAmountOfMines; i++)
 	{
-		Mine* mine = new Mine();
-		if (!mine)
-		{
-			return false;
-		}
-
-		result = mine->Initialize(device, hwnd, screen, DRAW_COLLIDER);
-		if (!result)
-		{
-			return false;
-		}
-
-		mine->SetPosition(POINT{
-			(rand() % (screen.width / 2)) + screen.width / 2,
-			rand() % (screen.height - 20)
-		});
-
-		mine->SetVelocity(D3DXVECTOR2(
-			-(1 + rand() % 10),
-			0
-			));
-
-		this->m_Mines.push_back(mine);
+		MineManager::AddMine();
 	}
 
 	this->m_ExplosionManager = new ExplosionManager();
@@ -131,35 +116,29 @@ void MineManager::Frame(const InputHandler::ControlsType& controls)
 		this->m_ExplosionManager->Frame(controls);
 
 		MineManager::ValidateMinesBounds();
+
+		bool result;
+		POINT screenToInt{ static_cast<int>(this->m_screenDimensions.width), static_cast<int>(this->m_screenDimensions.height) };
+		for (int i = 0; i < (this->m_maxAmountOfMines - this->m_Mines.size()); i++)
+		{
+			MineManager::AddMine();
+		}
 	}
 }
 
 void MineManager::ValidateMinesBounds()
 {
-	for (GameObject* mine : this->m_Mines)
+	for (std::list<GameObject*>::iterator it = this->m_Mines.begin(); it != this->m_Mines.end();)
 	{
-		if (mine->GetPosition().x < 0)
+		if ((*it)->GetPosition().x < 0)
 		{
-			mine->SetPosition(POINT{
-				this->m_screenDimensions.width + 10,
-				rand() % this->m_screenDimensions.height
-			});
+			it = this->m_Mines.erase(it);
+		}
+		else
+		{
+			it++;
 		}
 	}
-}
-
-std::list<GameObject*> MineManager::GetList()
-{
-	return this->m_Mines;
-}
-
-void MineManager::NotifyCollision(GameObject** mine)
-{
-	this->m_ExplosionManager->AddExplosion((*mine)->GetPosition());
-	(*mine)->SetPosition(POINT{
-		this->m_screenDimensions.width + 10,
-		rand() % this->m_screenDimensions.height
-	});
 }
 
 void MineManager::SetActiveStatus(bool status)
@@ -170,4 +149,38 @@ void MineManager::SetActiveStatus(bool status)
 bool MineManager::GetActiveStatus()
 {
 	return this->m_Mine->GetActiveStatus();
+}
+
+std::list<GameObject*>::iterator MineManager::GetListBegin()
+{
+	return this->m_Mines.begin();
+}
+
+std::list<GameObject*>::iterator MineManager::GetListEnd()
+{
+	return this->m_Mines.end();
+}
+
+std::list<GameObject*>::iterator MineManager::NotifyCollision(std::list<GameObject*>::iterator iterator)
+{
+	this->m_ExplosionManager->AddExplosion((*iterator)->GetPosition());
+	return this->m_Mines.erase(iterator);
+}
+
+void MineManager::AddMine()
+{
+	Mine* mine = new Mine();
+	mine->Initialize(this->m_device, this->m_hwnd, this->m_screenDimensions, this->m_drawCollider);
+	
+	mine->SetPosition(POINT{
+		this->m_screenDimensions.width + 20.0f,
+		rand() % (this->m_screenDimensions.height - 20)
+	});
+
+	mine->SetVelocity(D3DXVECTOR2(
+		-(1 + rand() % 10),
+		0
+		));
+
+	this->m_Mines.push_back(mine);
 }

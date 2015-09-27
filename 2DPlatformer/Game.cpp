@@ -10,6 +10,7 @@ Game::Game()
 	this->m_Bullets = nullptr;
 	this->m_Stars = nullptr;
 	this->m_Mines = nullptr;
+	this->m_HealthManager = nullptr;
 }
 
 Game::Game(const Game& other)
@@ -33,7 +34,7 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_Fighter->Initialize(device, hwnd, screen, false);
+	result = this->m_Fighter->Initialize(device, hwnd, screen, true);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the Fighter.", L"Error", MB_OK);
@@ -101,13 +102,30 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_Mines->Initialize(device, hwnd, screen, 20);
+	result = this->m_Mines->Initialize(device, hwnd, screen, 20, true);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the MineManager.", L"Error", MB_OK);
 		return false;
 	}
 	this->m_Mines->SetActiveStatus(true);
+	
+	////////////////////////////////////////////////////////////////////////////////
+	//									HEALTH MANAGER
+	////////////////////////////////////////////////////////////////////////////////
+	this->m_HealthManager = new HealthManager();
+	if (!this->m_HealthManager)
+	{
+		return false;
+	}
+
+	result = this->m_HealthManager->Initialize(device, hwnd, screen, POINT{ 350, 10 });
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the HealthManager.", L"Error", MB_OK);
+		return false;
+	}
+	this->m_HealthManager->SetActiveStatus(true);
 }
 
 void Game::Shutdown()
@@ -117,6 +135,7 @@ void Game::Shutdown()
  	SAFE_SHUTDOWN(this->m_Bullets);
  	SAFE_SHUTDOWN(this->m_Stars);
 	SAFE_SHUTDOWN(this->m_Mines);
+	SAFE_SHUTDOWN(this->m_HealthManager);
 }
 
 void Game::Frame(const InputHandler::ControlsType& controls)
@@ -139,31 +158,41 @@ void Game::Frame(const InputHandler::ControlsType& controls)
 void Game::CheckCollisions()
 {
 	bool collision = false;
-	for (std::list<GameObject*>::iterator bulletIterator = this->m_Bullets->GetListBegin(); bulletIterator != this->m_Bullets->GetListEnd(); collision = false)
+	for (std::list<GameObject*>::iterator mineIterator = this->m_Mines->GetListBegin(); mineIterator != this->m_Mines->GetListEnd(); collision = false)
 	{
-		GameObject* bullet = *bulletIterator;
-		for (GameObject* mine : this->m_Mines->GetList())
+		GameObject* mine = *mineIterator;
+		for (std::list<GameObject*>::iterator bulletIterator = this->m_Bullets->GetListBegin(); bulletIterator != this->m_Bullets->GetListEnd();)
 		{
-			if (Game::AreCircleCollidersColliding(bullet, mine))
+			GameObject* bullet = *bulletIterator;
+			if (Game::CheckCircleCircleCollision(dynamic_cast<CircleCollider*>(bullet->GetCollider()), dynamic_cast<CircleCollider*>(mine->GetCollider())))
 			{
 				bulletIterator = this->m_Bullets->NotifyCollision(bulletIterator);
-				this->m_Mines->NotifyCollision(&mine);
+				mineIterator = this->m_Mines->NotifyCollision(mineIterator);
 				collision = true;
 				break;
+			}
+			else
+			{
+				bulletIterator++;
 			}
 		}
 		if (!collision)
 		{
-			bulletIterator++;
+			if (Game::CheckCircleRectangleCollision(dynamic_cast<BoxCollider*>(this->m_Fighter->GetCollider()), dynamic_cast<CircleCollider*>(mine->GetCollider())))
+			{
+				mineIterator = this->m_Mines->NotifyCollision(mineIterator);
+				this->m_HealthManager->DecrementHealth();
+			}
+			else
+			{
+				mineIterator++;
+			}
 		}
 	}
 }
 
-bool Game::AreCircleCollidersColliding(GameObject* gO1, GameObject* gO2)
+bool Game::CheckCircleCircleCollision(CircleCollider* gO1Collider, CircleCollider* gO2Collider)
 {
-	CircleCollider* gO1Collider = dynamic_cast<CircleCollider*>(gO1->GetCollider());
-	CircleCollider* gO2Collider = dynamic_cast<CircleCollider*>(gO2->GetCollider());
-
 	//Circle - Circle Collision = sqrt((h2 - h1)^2 + (k2 - k1)^2) <= (r1 + r2)^2
 	float a = (gO2Collider->GetCenter().x - gO1Collider->GetCenter().x);
 	float b = (gO2Collider->GetCenter().y - gO1Collider->GetCenter().y);
@@ -172,6 +201,44 @@ bool Game::AreCircleCollidersColliding(GameObject* gO1, GameObject* gO2)
 	return (((a*a) + (b*b)) <= r*r);
 }
 
+bool Game::CheckCircleRectangleCollision(BoxCollider* gO1Collider, CircleCollider* gO2Collider)
+{
+	BoxCollider::BoxVerticesType boxColliderVertices = gO1Collider->GetBoxColliderVertices();
+
+	float halfWidth = boxColliderVertices.width / 2;
+	float halfHeigh = boxColliderVertices.height / 2;
+
+	POINTF rectangleCenter = POINTF{
+		boxColliderVertices.x + halfWidth,
+		boxColliderVertices.y + halfHeigh,
+	};
+
+	float dx = fabs(gO2Collider->GetCenter().x - rectangleCenter.x);
+	float dy = fabs(gO2Collider->GetCenter().y - rectangleCenter.y);
+
+	if (dx > (gO2Collider->GetRadius() + halfWidth) || dy > (gO2Collider->GetRadius() + halfHeigh))
+	{
+		return false;
+	}
+
+	POINTF circleDistance = POINTF{
+		fabs(gO2Collider->GetCenter().x - boxColliderVertices.x - boxColliderVertices.width),
+		fabs(gO2Collider->GetCenter().y - boxColliderVertices.y - boxColliderVertices.height)
+	};
+
+	if (circleDistance.x <= halfWidth)
+	{
+		return true;
+	}
+	else if (circleDistance.y <= halfHeigh)
+	{
+		return true;
+	}
+
+	float cornerDistanceSq = powf(circleDistance.x - halfWidth, 2) + powf(circleDistance.y - halfHeigh, 2);
+
+	return (cornerDistanceSq <= powf(gO2Collider->GetRadius(), 2));
+}
 
 bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
@@ -202,6 +269,12 @@ bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 	}
 
 	result = this->m_Bullets->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = this->m_HealthManager->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;
