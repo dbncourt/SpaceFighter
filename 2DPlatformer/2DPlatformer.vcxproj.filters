@@ -135,6 +135,21 @@
     <ClInclude Include="HealthManager.h">
       <Filter>Header Files\GameObjectManagers</Filter>
     </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesCount.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Exhaust.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ExhaustManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Direct3D.cpp">
@@ -233,6 +248,21 @@
     <ClCompile Include="HealthManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Number.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesCount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exhaust.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExhaustManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="TexturePixelShader.hlsl">
@@ -265,6 +295,27 @@
       <Filter>Resource Files\Texture</Filter>
     </Image>
     <Image Include="Mine.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="HealthIndicator_Yellow.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="HealthIndicator_Red.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="HealthIndicator_Green.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="HealthBar.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="Star.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="LifeCounter.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </Image>
+    <Image Include="Exhaust.dds">
       <Filter>Resource Files\Texture</Filter>
     </Image>
   </ItemGroup>

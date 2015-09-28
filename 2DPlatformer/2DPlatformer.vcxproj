@@ -19,6 +19,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColorShader.h" />
     <ClInclude Include="Direct3D.h" />
+    <ClInclude Include="Exhaust.h" />
+    <ClInclude Include="ExhaustManager.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="ExplosionManager.h" />
     <ClInclude Include="Fighter.h" />
@@ -31,8 +33,11 @@
     <ClInclude Include="HealthManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="LivesCount.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="MineManager.h" />
+    <ClInclude Include="Number.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -51,6 +56,8 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="Direct3D.cpp" />
+    <ClCompile Include="Exhaust.cpp" />
+    <ClCompile Include="ExhaustManager.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="ExplosionManager.cpp" />
     <ClCompile Include="Fighter.cpp" />
@@ -63,9 +70,12 @@
     <ClCompile Include="HealthManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="LivesCount.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="MineManager.cpp" />
+    <ClCompile Include="Number.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -103,11 +113,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Bullet.dds" />
+    <Image Include="Exhaust.dds" />
     <Image Include="Explosion.dds" />
     <Image Include="Fighter.dds" />
     <Image Include="Flame.dds" />
+    <Image Include="HealthBar.dds" />
+    <Image Include="HealthIndicator_Green.dds" />
+    <Image Include="HealthIndicator_Red.dds" />
+    <Image Include="HealthIndicator_Yellow.dds" />
+    <Image Include="LifeCounter.dds" />
     <Image Include="Mine.dds" />
     <Image Include="Numbers.dds" />
+    <Image Include="Star.dds" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CompiledShaders\ColorPixelShader.cso" />

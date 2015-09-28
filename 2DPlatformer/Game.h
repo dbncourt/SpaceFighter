@@ -7,12 +7,14 @@
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
+#include "BulletManager.h"
+#include "ExhaustManager.h"
 #include "Fighter.h"
 #include "FighterFlame.h"
-#include "BulletManager.h"
-#include "StarManager.h"
-#include "MineManager.h"
 #include "HealthManager.h"
+#include "MineManager.h"
+#include "Score.h"
+#include "StarManager.h"
 
 class Game
 {
@@ -39,5 +41,7 @@ private:
 	StarManager* m_Stars;
 	MineManager* m_Mines;
 	HealthManager* m_HealthManager;
+	Score* m_Score;
+	ExhaustManager* m_ExhaustManager;
 };
 #endif

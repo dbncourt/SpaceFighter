@@ -8,7 +8,10 @@ HealthManager::HealthManager()
 	this->m_device = nullptr;
 	this->m_hwnd = nullptr;
 	this->m_HealthBar = nullptr;
+	this->m_LivesNumber = nullptr;
+	this->m_LivesCount = nullptr;
 	this->m_activeStatus = true;
+	this->m_lives = 3;
 }
 
 HealthManager::HealthManager(const HealthManager& other)
@@ -46,12 +49,47 @@ bool HealthManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimensio
 		return false;
 	}
 
+	this->m_LivesCount = new LivesCount();
+	if (!this->m_LivesCount)
+	{
+		return false;
+	}
+
+	result = this->m_LivesCount->Initialize(device, hwnd, screen, false);
+	if (!result)
+	{
+		return false;
+	}
+	this->m_LivesCount->SetPosition(POINT{
+		this->m_HealthBar->GetPosition().x - 75,
+		this->m_HealthBar->GetPosition().y
+	});
+
+	this->m_LivesNumber = new Number();
+	if (!this->m_LivesNumber)
+	{
+		return false;
+	}
+
+	result = this->m_LivesNumber->Initialize(device, hwnd, screen, false);
+	if (!result)
+	{
+		return false;
+	}
+	this->m_LivesNumber->GetSprite()->SetCurrentFrame(this->m_lives);
+	this->m_LivesNumber->SetPosition(POINT{
+		this->m_LivesCount->GetPosition().x + 53,
+		this->m_LivesCount->GetPosition().y + 24
+	});
+
 	return true;
 }
 
 void HealthManager::Shutdown()
 {
 	SAFE_SHUTDOWN(this->m_HealthBar);
+	SAFE_SHUTDOWN(this->m_LivesNumber);
+	SAFE_SHUTDOWN(this->m_LivesCount);
 
 	for (GameObject* healthIndicator : this->m_HealthIndicators)
 	{
@@ -80,6 +118,18 @@ bool HealthManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMa
 				return false;
 			}
 		}
+
+		result = this->m_LivesCount->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+		if (!result)
+		{
+			return false;
+		}
+
+		result = this->m_LivesNumber->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -93,6 +143,7 @@ void HealthManager::DecrementHealth()
 		if (this->m_HealthIndicators.empty())
 		{
 			HealthManager::ResetHealth();
+			HealthManager::DecrementLives();
 		}
 	}
 }
@@ -148,14 +199,17 @@ bool HealthManager::ResetHealth()
 	return true;
 }
 
-void HealthManager::DecrementLife()
+void HealthManager::DecrementLives()
 {
-
+	if (this->m_lives > 0)
+	{
+		this->m_LivesNumber->GetSprite()->SetCurrentFrame(--this->m_lives);
+	}
 }
 
-bool HealthManager::ResetLife()
+void HealthManager::ResetLives()
 {
-	return true;
+	this->m_LivesNumber->GetSprite()->SetCurrentFrame(this->m_lives = 3);
 }
 
 void HealthManager::SetActiveStatus(bool status)

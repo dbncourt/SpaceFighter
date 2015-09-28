@@ -39,6 +39,7 @@ public:
 	void DecrementFrame();
 	void ResetFrame();
 
+	void SetCurrentFrame(int frameNumber);
 	int GetCurrentFrame();
 	int GetAmountOfFrames();
 

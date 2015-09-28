@@ -5,8 +5,6 @@
 
 Fighter::Fighter() : GameObject()
 {
-	this->m_life = 100;
-	this->m_lives = 3;
 	this->m_boxCollider = nullptr;
 }
 
@@ -23,8 +21,6 @@ bool Fighter::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType 
 	bool result;
 
 	this->m_drawCollider = drawCollider;
-	this->m_life = 100;
-	this->m_lives = 3;
 
 	result = GameObject::Initialize(device, hwnd, screen, L"Fighter.dds", Bitmap::DimensionType{ 1152.0f, 216.0f }, Bitmap::DimensionType{ 144.0f, 108.0f }, 8, 7, true);
 	if (!result)
@@ -140,7 +136,7 @@ void Fighter::Frame(const InputHandler::ControlsType& controls)
 				{
 					if (GameObject::GetPosition().x < (GameObject::GetSprite()->GetBitmap()->GetScreenDimensions().width - GameObject::GetSprite()->GetBitmap()->GetBitmapDimensions().width))
 					{
-						GameObject::Move(D3DXVECTOR2(SHIP_SPEED, 0));
+						GameObject::Move(D3DXVECTOR2(SHIP_SPEED * 2, 0));
 					}
 				}
 				else if (controls.left)

@@ -48,7 +48,7 @@ bool HealthIndicator::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimens
 {
 	bool result;
 
-	result = GameObject::Initialize(device, hwnd, screen, this->m_spriteName, Bitmap::DimensionType{ 4, 13 }, Bitmap::DimensionType{ 4, 13 }, 1, 0, true);
+	result = GameObject::Initialize(device, hwnd, screen, this->m_spriteName, Bitmap::DimensionType{ 4, 13 }, Bitmap::DimensionType{ 4, 13 }, 1, 0, false);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the HealthIndicator GameObject", L"Error", MB_OK);

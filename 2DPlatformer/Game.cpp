@@ -11,6 +11,8 @@ Game::Game()
 	this->m_Stars = nullptr;
 	this->m_Mines = nullptr;
 	this->m_HealthManager = nullptr;
+	this->m_Score = nullptr;
+	this->m_ExhaustManager = nullptr;
 }
 
 Game::Game(const Game& other)
@@ -34,7 +36,7 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_Fighter->Initialize(device, hwnd, screen, true);
+	result = this->m_Fighter->Initialize(device, hwnd, screen, false);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the Fighter.", L"Error", MB_OK);
@@ -102,7 +104,7 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_Mines->Initialize(device, hwnd, screen, 20, true);
+	result = this->m_Mines->Initialize(device, hwnd, screen, 20, false);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the MineManager.", L"Error", MB_OK);
@@ -119,13 +121,48 @@ bool Game::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType scr
 		return false;
 	}
 
-	result = this->m_HealthManager->Initialize(device, hwnd, screen, POINT{ 350, 10 });
+	result = this->m_HealthManager->Initialize(device, hwnd, screen, POINT{ 450, 10 });
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the HealthManager.", L"Error", MB_OK);
 		return false;
 	}
 	this->m_HealthManager->SetActiveStatus(true);
+
+	////////////////////////////////////////////////////////////////////////////////
+	//									   SCORE
+	////////////////////////////////////////////////////////////////////////////////
+	this->m_Score = new Score();
+	if (!this->m_Score)
+	{
+		return false;
+	}
+
+	result = this->m_Score->Initialize(device, hwnd, screen, POINT{ 300, 10 }, 4);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the Score.", L"Error", MB_OK);
+		return false;
+	}
+	this->m_Score->SetActiveStatus(true);
+
+	////////////////////////////////////////////////////////////////////////////////
+	//								 EXHAUST MANAGER
+	////////////////////////////////////////////////////////////////////////////////
+	this->m_ExhaustManager = new ExhaustManager();
+	if (!this->m_ExhaustManager)
+	{
+		return false;
+	}
+
+	result = this->m_ExhaustManager->Initialize(device, hwnd, screen);
+	if (!result)
+	{
+		return false;
+	}
+	this->m_ExhaustManager->SetActiveStatus(true);
+
+	return true;
 }
 
 void Game::Shutdown()
@@ -136,6 +173,8 @@ void Game::Shutdown()
  	SAFE_SHUTDOWN(this->m_Stars);
 	SAFE_SHUTDOWN(this->m_Mines);
 	SAFE_SHUTDOWN(this->m_HealthManager);
+	SAFE_SHUTDOWN(this->m_Score);
+	SAFE_SHUTDOWN(this->m_ExhaustManager);
 }
 
 void Game::Frame(const InputHandler::ControlsType& controls)
@@ -151,6 +190,11 @@ void Game::Frame(const InputHandler::ControlsType& controls)
 	this->m_Mines->Frame(controls);
 
 	this->m_Stars->Frame(controls);
+
+	this->m_ExhaustManager->Frame(controls, POINT{
+		this->m_Fighter->GetPosition().x + 10,
+		this->m_Fighter->GetPosition().y + 54
+	});
  
  	Game::CheckCollisions();
 }
@@ -168,6 +212,7 @@ void Game::CheckCollisions()
 			{
 				bulletIterator = this->m_Bullets->NotifyCollision(bulletIterator);
 				mineIterator = this->m_Mines->NotifyCollision(mineIterator);
+				this->m_Score->IncrementScore();
 				collision = true;
 				break;
 			}
@@ -250,6 +295,12 @@ bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 		return false;
 	}
 
+	result = this->m_ExhaustManager->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
 	result = this->m_FighterFlame->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
@@ -275,6 +326,12 @@ bool Game::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3D
 	}
 
 	result = this->m_HealthManager->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = this->m_Score->Render(deviceContext, wordMatrix, viewMatrix, projectionMatrix);
 	if (!result)
 	{
 		return false;

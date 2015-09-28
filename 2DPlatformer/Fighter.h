@@ -28,8 +28,6 @@ public:
 	virtual void Frame(const InputHandler::ControlsType& controls) override;
 
 private:
-	int m_life;
-	int m_lives;
 	BoxCollider* m_boxCollider;
 
 	const int SHIP_SPEED = 3;

@@ -108,6 +108,14 @@ void Sprite::ResetFrame()
 	this->m_currentFrame = this->m_initialFrame;
 }
 
+void Sprite::SetCurrentFrame(int frameNumber)
+{
+	if (this->m_amountOfFrames > frameNumber)
+	{
+		this->m_currentFrame = frameNumber;
+	}
+}
+
 int Sprite::GetCurrentFrame()
 {
 	return this->m_currentFrame;
