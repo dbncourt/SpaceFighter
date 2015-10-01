@@ -33,6 +33,7 @@
     <ClInclude Include="HealthManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="JsonReader.h" />
     <ClInclude Include="LivesCount.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="MineManager.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="HealthManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="JsonReader.cpp" />
     <ClCompile Include="LivesCount.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />
@@ -165,6 +167,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>H:\GitHub\rapidjson\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

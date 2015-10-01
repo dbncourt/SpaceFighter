@@ -135,19 +135,22 @@
     <ClInclude Include="HealthManager.h">
       <Filter>Header Files\GameObjectManagers</Filter>
     </ClInclude>
-    <ClInclude Include="Number.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LivesCount.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Exhaust.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Number.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="ExhaustManager.h">
+      <Filter>Header Files\GameObjectManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -261,6 +264,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExhaustManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
