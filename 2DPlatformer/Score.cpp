@@ -5,7 +5,7 @@
 
 Score::Score()
 {
-	this->m_score = 9900;
+	this->m_score = 0;
 }
 
 Score::Score(const Score& other)

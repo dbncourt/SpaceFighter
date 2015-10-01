@@ -5,9 +5,10 @@
 
 ExplosionManager::ExplosionManager()
 {
-	this->m_Explosion = nullptr;
 	this->m_device = nullptr;
 	this->m_hwnd = nullptr;
+
+	this->m_activeStatus = true;
 }
 
 ExplosionManager::ExplosionManager(const ExplosionManager& other)
@@ -20,32 +21,15 @@ ExplosionManager::~ExplosionManager()
 
 bool ExplosionManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionType screen)
 {
-	bool result;
-
 	this->m_device = device;
 	this->m_hwnd = hwnd;
 	this->m_ScreenDimensions = screen;
-
-	this->m_Explosion = new Explosion();
-	if (!this->m_Explosion)
-	{
-		return false;
-	}
-
-	result = this->m_Explosion->Initialize(device, hwnd, screen, false);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the ExplosionManager GameObject.", L"Error", MB_OK);
-		return false;
-	}
 
 	return true;
 }
 
 void ExplosionManager::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Explosion);
-
 	for (GameObject* explosion : this->m_Explosions)
 	{
 		SAFE_SHUTDOWN(explosion);
@@ -55,7 +39,7 @@ void ExplosionManager::Shutdown()
 
 bool ExplosionManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	if (this->m_Explosion->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
 		bool result;
 
@@ -73,9 +57,8 @@ bool ExplosionManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wor
 
 void ExplosionManager::Frame(const InputHandler::ControlsType& controls)
 {
-	if (this->m_Explosion->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
-		this->m_Explosion->Frame(controls);
 		for (std::list<GameObject*>::iterator it = this->m_Explosions.begin(); it != this->m_Explosions.end();)
 		{
 			Explosion* explosion = dynamic_cast<Explosion*>(*it);
@@ -95,7 +78,7 @@ void ExplosionManager::Frame(const InputHandler::ControlsType& controls)
 
 void ExplosionManager::AddExplosion(POINT position)
 {
-	if (this->m_Explosion->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
 		Explosion* explosion = new Explosion();
 		explosion->Initialize(this->m_device, this->m_hwnd, this->m_ScreenDimensions, false);
@@ -107,10 +90,10 @@ void ExplosionManager::AddExplosion(POINT position)
 
 void ExplosionManager::SetActiveStatus(bool status)
 {
-	this->m_Explosion->SetActiveStatus(status);
+	this->m_activeStatus = status;
 }
 
 bool ExplosionManager::GetActiveStatus()
 {
-	return this->m_Explosion->GetActiveStatus();
+	return this->m_activeStatus;
 }

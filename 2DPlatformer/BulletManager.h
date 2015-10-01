@@ -44,12 +44,14 @@ private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
 
-	Bullet* m_Bullet;
+	Timer* m_Timer;
 	std::list<GameObject*> m_Bullets;
 	Bitmap::DimensionType m_screenDimensions;
 	POINT m_relativePosition;
 
+	float m_accumulatedTime;
 	const float SHOOT_DELAY = 100.0f;
 	const bool DRAW_COLLIDER = false;
+	bool m_activeStatus;
 };
 #endif

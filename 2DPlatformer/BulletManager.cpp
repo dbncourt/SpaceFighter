@@ -5,9 +5,11 @@
 
 BulletManager::BulletManager()
 {
-	this->m_Bullet = nullptr;
+	this->m_Timer = nullptr;
 	this->m_device = nullptr;
 	this->m_hwnd = nullptr;
+	this->m_activeStatus = true;
+	this->m_accumulatedTime = 0.0f;
 }
 
 BulletManager::BulletManager(const BulletManager& other)
@@ -26,16 +28,16 @@ bool BulletManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimensio
 	this->m_hwnd = hwnd;
 	this->m_screenDimensions = screen;
 
-	this->m_Bullet = new Bullet();
-	if (!this->m_Bullet)
+	this->m_Timer = new Timer();
+	if (!this->m_Timer)
 	{
 		return false;
 	}
 	
-	result = this->m_Bullet->Initialize(device, hwnd, screen, DRAW_COLLIDER);
+	result = this->m_Timer->Initialize();
 	if (!result)
 	{
-		MessageBox(hwnd, L"Could not initialize the BulletManager GameObject.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not initialize the BulletManager Timer.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -44,7 +46,7 @@ bool BulletManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::Dimensio
 
 void BulletManager::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Bullet);
+	SAFE_DELETE(this->m_Timer);
 
 	for (GameObject* bullet : this->m_Bullets)
 	{
@@ -55,7 +57,7 @@ void BulletManager::Shutdown()
 
 bool BulletManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	if (this->m_Bullet->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
 		bool result;
 
@@ -74,21 +76,21 @@ bool BulletManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMa
 
 void BulletManager::Frame(const InputHandler::ControlsType& controls)
 {
-	if (this->m_Bullet->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
-		this->m_Bullet->Frame(controls);
-
+		this->m_Timer->Frame();
 		for (GameObject* bullet : this->m_Bullets)
 		{
 			dynamic_cast<Bullet*>(bullet)->Frame(controls);
 		}
 
+		this->m_accumulatedTime += this->m_Timer->GetTime();
 		if (controls.spaceBar)
 		{
-			if (this->m_Bullet->GetAnimationDelayTime() > SHOOT_DELAY)
+			if (this->m_accumulatedTime > SHOOT_DELAY)
 			{
 				BulletManager::GenerateTriBullet();
-				this->m_Bullet->ResetAnimationDelayTime();
+				this->m_accumulatedTime = 0.0f;
 			}
 		}
 
@@ -156,10 +158,10 @@ std::list<GameObject*>::iterator BulletManager::NotifyCollision(std::list<GameOb
 
 void BulletManager::SetActiveStatus(bool status)
 {
-	this->m_Bullet->SetActiveStatus(status);
+	this->m_activeStatus = status;
 }
 
 bool BulletManager::GetActiveStatus()
 {
-	return this->m_Bullet->GetActiveStatus();
+	return this->m_activeStatus;
 }

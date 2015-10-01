@@ -7,9 +7,9 @@ MineManager::MineManager()
 {
 	this->m_device = nullptr;
 	this->m_hwnd = nullptr;
-	this->m_Mine = nullptr;
 	this->m_ExplosionManager = nullptr;
 	this->m_maxAmountOfMines = 0;
+	this->m_activeStatus = true;
 }
 
 MineManager::MineManager(const MineManager& other)
@@ -29,19 +29,6 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 	this->m_screenDimensions = screen;
 	this->m_maxAmountOfMines = maxAmountOfMines;
 	this->m_drawCollider = drawColliders;
-
-	this->m_Mine = new Mine();
-	if (!this->m_Mine)
-	{
-		return false;
-	}
-
-	result = this->m_Mine->Initialize(device, hwnd, screen, this->m_drawCollider);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the MineManager GameObject.", L"Error", MB_OK);
-		return false;
-	}
 
 	for (int i = 0; i < maxAmountOfMines; i++)
 	{
@@ -67,8 +54,6 @@ bool MineManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 
 void MineManager::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Mine);
-
 	for (GameObject* mine : this->m_Mines)
 	{
 		SAFE_SHUTDOWN(mine);
@@ -80,7 +65,7 @@ void MineManager::Shutdown()
 
 bool MineManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	if (this->m_Mine->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
 		bool result;
 
@@ -104,10 +89,8 @@ bool MineManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMat
 
 void MineManager::Frame(const InputHandler::ControlsType& controls)
 {
-	if (this->m_Mine->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
-		this->m_Mine->Frame(controls);
-
 		for (GameObject* mine : this->m_Mines)
 		{
 			dynamic_cast<Mine*>(mine)->Frame(controls);
@@ -143,12 +126,12 @@ void MineManager::ValidateMinesBounds()
 
 void MineManager::SetActiveStatus(bool status)
 {
-	this->m_Mine->SetActiveStatus(status);
+	this->m_activeStatus = status;
 }
 
 bool MineManager::GetActiveStatus()
 {
-	return this->m_Mine->GetActiveStatus();
+	return this->m_activeStatus;
 }
 
 std::list<GameObject*>::iterator MineManager::GetListBegin()

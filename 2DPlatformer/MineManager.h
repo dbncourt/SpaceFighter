@@ -43,12 +43,12 @@ private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
 
-	Mine* m_Mine;
 	std::list<GameObject*> m_Mines;
 	ExplosionManager* m_ExplosionManager;
 	Bitmap::DimensionType m_screenDimensions;
 
 	int m_maxAmountOfMines;
 	bool m_drawCollider;
+	bool m_activeStatus;
 };
 #endif

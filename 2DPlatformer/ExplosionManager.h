@@ -36,8 +36,9 @@ private:
 	ID3D11Device* m_device;
 	HWND m_hwnd;
 
-	Explosion* m_Explosion;
 	std::list<GameObject*> m_Explosions;
 	Bitmap::DimensionType m_ScreenDimensions;
+
+	bool m_activeStatus;
 };
 #endif

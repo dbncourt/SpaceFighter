@@ -34,8 +34,9 @@ private:
 	void ValidateStarsBounds();
 
 private:
-	Star* m_Star;
 	std::list<Star*> m_Stars;
 	Bitmap::DimensionType m_screenDimensions;
+
+	bool m_activeStatus;
 };
 #endif

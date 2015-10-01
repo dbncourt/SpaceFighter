@@ -5,7 +5,7 @@
 
 StarManager::StarManager()
 {
-	this->m_Star = nullptr;
+	this->m_activeStatus = true;
 }
 
 StarManager::StarManager(const StarManager& other)
@@ -21,19 +21,6 @@ bool StarManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 	bool result;
 
 	this->m_screenDimensions = screen;
-
-	this->m_Star = new Star();
-	if (!this->m_Star)
-	{
-		return false;
-	}
-
-	result = this->m_Star->Initialize(device, hwnd, screen, false);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the StarManager GameObject.", L"Error", MB_OK);
-		return false;
-	}
 
 	for (int i = 0; i < maxAmountOfStars; i++)
 	{
@@ -69,8 +56,6 @@ bool StarManager::Initialize(ID3D11Device* device, HWND hwnd, Bitmap::DimensionT
 
 void StarManager::Shutdown()
 {
-	SAFE_SHUTDOWN(this->m_Star);
-
 	for (Star* star : this->m_Stars)
 	{
 		SAFE_SHUTDOWN(star);
@@ -81,7 +66,7 @@ void StarManager::Shutdown()
 
 bool StarManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix)
 {
-	if (this->m_Star->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
 		bool result;
 
@@ -99,10 +84,8 @@ bool StarManager::Render(ID3D11DeviceContext* deviceContext, D3DXMATRIX wordMatr
 
 void StarManager::Frame(const InputHandler::ControlsType& controls)
 {
-	if (this->m_Star->GetActiveStatus())
+	if (this->m_activeStatus)
 	{
-		this->m_Star->Frame(controls);
-
 		for (Star* star : this->m_Stars)
 		{
 			star->Frame(controls);
@@ -129,10 +112,10 @@ void StarManager::ValidateStarsBounds()
 
 void StarManager::SetActiveStatus(bool status)
 {
-	this->m_Star->SetActiveStatus(status);
+	this->m_activeStatus = status;
 }
 
 bool StarManager::GetActiveStatus()
 {
-	return this->m_Star->GetActiveStatus();
+	return this->m_activeStatus;
 }
